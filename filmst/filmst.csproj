@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Interfaces\" />
+    <Folder Include="Services\" />
+    <Folder Include="Providers\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Persistant\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
