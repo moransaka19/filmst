@@ -105,12 +105,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Models\AspNetRoles.cs" />
-    <Compile Include="Models\AspNetUserClaims.cs" />
-    <Compile Include="Models\AspNetUserLogins.cs" />
-    <Compile Include="Models\AspNetUsers.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\UserContext.cs" />
+    <Compile Include="ApplicationDbContext.cs" />
+    <Compile Include="ApplicationUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
