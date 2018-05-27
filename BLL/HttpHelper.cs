@@ -13,7 +13,7 @@ namespace BLL
     {
 
 
-        static public async Task<string> GetAsync(string url, string roomToken)
+        static public string GetAsync(string url, string roomToken)
         {
             try
             {

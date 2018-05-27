@@ -7,15 +7,16 @@ using System.Text;
 
 namespace BLL.Models
 {
-    class ChatRoomHub:Hub
+    class ChatRoomHub : Hub
     {
         static List<IdentityUser> Users = new List<IdentityUser>();
-        
+
         public void Send(string name, string message)
         {
+
             Clients.All.addMessage(name, message);
         }
-        
+
         public void Connect(string userName)
         {
             var id = Context.ConnectionId;
@@ -24,13 +25,13 @@ namespace BLL.Models
             if (!Users.Any(x => x.Id == id))
             {
                 Users.Add(new IdentityUser { Id = id, Email = userName });
-                
+
                 Clients.Caller.onConnected(id, userName, Users);
-                
+
                 Clients.AllExcept(id).onNewUserConnected(id, userName);
             }
         }
-        
+
         public override System.Threading.Tasks.Task OnDisconnected(bool stopCalled)
         {
             var item = Users.FirstOrDefault(x => x.Id == Context.ConnectionId);

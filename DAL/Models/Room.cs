@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DAL.Models
 {
-    class Room
+    public class Room
     {
         [Key]
         public string RoomName { get; set; }

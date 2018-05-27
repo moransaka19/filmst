@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DAL.Models
 {
-    class Track
+    public class Track
     {
         [Key]
         public string TrackName { get; set; }
