@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using filmst_2._0.Data;
 using filmst_2._0.Services;
+using filmst_2._0.Interfaces;
 
 namespace filmst_2._0.Pages.Account
 {

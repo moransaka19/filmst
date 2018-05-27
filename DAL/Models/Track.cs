@@ -9,7 +9,7 @@ namespace DAL.Models
     {
         [Key]
         public string TrackName { get; set; }
-        public string MediaTag { get; set; }
+        public ICollection<string> MediaTag { get; set; }
         public int FileSize { get; set; }
     }
 }

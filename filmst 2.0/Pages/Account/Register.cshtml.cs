@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using filmst_2._0.Data;
 using filmst_2._0.Services;
+using filmst_2._0.Interfaces;
 
 namespace filmst_2._0.Pages.Account
 {

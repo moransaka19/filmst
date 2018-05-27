@@ -13,6 +13,7 @@ using filmst_2._0.Data;
 using filmst_2._0.Services;
 using filmst_2._0.Interfaces;
 using filmst_2._0.Infrastructure;
+using Owin;
 
 namespace filmst_2._0
 {
@@ -20,16 +21,18 @@ namespace filmst_2._0
     {
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            Configurations = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+       
+
+        public IConfiguration Configurations { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configurations.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -67,6 +70,10 @@ namespace filmst_2._0
             app.UseAuthentication();
 
             app.UseMvc();
+        }
+        public void Configuration(IAppBuilder app)
+        {
+            app.MapSignalR();
         }
     }
 }
