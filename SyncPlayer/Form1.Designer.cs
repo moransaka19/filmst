@@ -50,6 +50,7 @@
             this.axWMP.Size = new System.Drawing.Size(550, 397);
             this.axWMP.TabIndex = 0;
             this.axWMP.PlayStateChange += new AxWMPLib._WMPOCXEvents_PlayStateChangeEventHandler(this.axWMP_PlayStateChange);
+            this.axWMP.MediaChange += new AxWMPLib._WMPOCXEvents_MediaChangeEventHandler(this.axWMP_MediaChange);
             // 
             // RunBTN
             // 
