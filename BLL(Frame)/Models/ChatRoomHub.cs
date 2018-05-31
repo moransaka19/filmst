@@ -1,11 +1,11 @@
-﻿using DAL.Models;
-using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DAL.Models;
 
-namespace BLL.Models
+namespace BLL_Frame_.Models
 {
     class ChatRoomHub : Hub
     {
