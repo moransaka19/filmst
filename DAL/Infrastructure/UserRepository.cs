@@ -32,7 +32,7 @@ namespace DAL.Infrastructure
 
         public void Remove(ApplicationUser item)
         {
-            ApplicationUser user = _db.Users.Find(item.UserName);
+            ApplicationUser user = _db.Users.Find(item.Email);
             if (user!=null)
             {
                 _db.Users.Remove(user);

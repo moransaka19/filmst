@@ -1,9 +1,13 @@
-﻿using System;
+﻿using DAL.Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,6 +21,30 @@ namespace SyncPlayer.SignInForms
             InitializeComponent();
         }
 
+        private string UserDataPostRequest(string email, string password)
+        {
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create("http://url");
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                string json = JsonConvert.SerializeObject(new { Email = email, Password = password});
+
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            var result = string.Empty;
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                result = streamReader.ReadToEnd();
+            }
+            return result;
+        }
+
         private void btn_login_Click(object sender, EventArgs e)
         {
             if (tbox_email.TextLength >= 5)
@@ -24,14 +52,26 @@ namespace SyncPlayer.SignInForms
                 string email = tbox_email.Text;
                 string password = tbox_password.Text;
                 //httpPost validation
-
-                //Remember me system
-                if (cbox_remMe.Checked == true)
+                string response = UserDataPostRequest(email, password);
+                if (response == "sdsdvsdv")
                 {
-                    Properties.Settings.Default.remEmail = email;
-                    Properties.Settings.Default.remPassword = password;
-                    Properties.Settings.Default.Save();
+                    ApplicationUser currentUser = new ApplicationUser() { Email = email, Password = password };
+                    //Remember me system
+                    if (cbox_remMe.Checked == true)
+                    {
+                        Properties.Settings.Default.remEmail = email;
+                        Properties.Settings.Default.remPassword = password;
+                        Properties.Settings.Default.Save();
+                    }
+                    ConnectToRoomForm connectToRoomForm = new ConnectToRoomForm(currentUser);
+                    connectToRoomForm.Show();
+                    this.Close();
                 }
+                else
+                {
+                    throw new Exception();
+                }
+                
             }
             else
             {

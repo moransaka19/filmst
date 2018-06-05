@@ -107,12 +107,12 @@
             this.materialLabel2.AutoSize = true;
             this.materialLabel2.BackColor = System.Drawing.Color.Transparent;
             this.materialLabel2.Depth = 0;
-            this.materialLabel2.Font = new System.Drawing.Font("Roboto", 8F);
+            this.materialLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F);
             this.materialLabel2.ForeColor = System.Drawing.Color.DimGray;
             this.materialLabel2.Location = new System.Drawing.Point(208, 372);
             this.materialLabel2.MouseState = MaterialSkin.MouseState.HOVER;
             this.materialLabel2.Name = "materialLabel2";
-            this.materialLabel2.Size = new System.Drawing.Size(34, 14);
+            this.materialLabel2.Size = new System.Drawing.Size(33, 13);
             this.materialLabel2.TabIndex = 10;
             this.materialLabel2.Text = "Login";
             this.materialLabel2.Click += new System.EventHandler(this.materialLabel2_Click);
