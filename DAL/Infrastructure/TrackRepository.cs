@@ -39,7 +39,7 @@ namespace DAL.Infrastructure
 
         public void Update(Track item)
         {
-            _db.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _db.Entry(item).State = System.Data.Entity.EntityState.Modified;
         }
     }
 }
