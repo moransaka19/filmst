@@ -10,22 +10,29 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using WMPLib;
 using AxWMPLib;
+using Microsoft.AspNet.SignalR.Client;
 
-namespace SyncPlayer
+namespace SyncPlayer.WorkerForms
 {
     public partial class PlayerForm : MaterialSkin.Controls.MaterialForm
     {
         bool IsPlaying = false;
         ApplicationUser currentUser;
+        IHubProxy _hub;
+        HubConnection connection;
 
-        public PlayerForm(ApplicationUser CurrentUser )
+        public PlayerForm(ApplicationUser CurrentUser, IEnumerable<Track> Playlist )
         {
             InitializeComponent();
-            Player.URL = (@"C:\Users\Guilegaton\Desktop\Touhou Project\Bad Apple Rock Cover (Sam Luff Ver.) - Studio Yuraki.mp3");
             Player.Ctlcontrols.stop();
             Player.uiMode = "none";
             Player.enableContextMenu = false;
             currentUser = CurrentUser;
+            string url = @"http://localhost:8080/";
+            connection = new HubConnection(url);
+            _hub = connection.CreateHubProxy("ChatRoomHub");
+            connection.Start().Wait();
+            _hub.Invoke("Connect", currentUser.Email).Wait();
         }
 
         private void PlayPauseBTN_Click(object sender, EventArgs e)
@@ -46,6 +53,7 @@ namespace SyncPlayer
 
         private void ChatBTN_Click(object sender, EventArgs e)
         {
+            _hub.Invoke("Send", ChatBTN.Text, currentUser.Email).Wait();
             AddTextToChat(currentUser, ChatTB.Text);
             ChatTB.Text = string.Empty;
         }
@@ -59,6 +67,12 @@ namespace SyncPlayer
                 AddTextToChat(currentUser, ChatTB.Text);
                 ChatTB.Text = string.Empty;
             }
+        }
+
+        private void PlayerForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _hub.Invoke("OnDisconnected", currentUser.Email).Wait();
+            connection.Stop();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace SyncPlayer
+﻿namespace SyncPlayer.WorkerForms
 {
     partial class ConnectToRoomForm
     {

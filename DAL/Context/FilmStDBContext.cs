@@ -9,10 +9,10 @@ namespace DAL.Context
 {
     public class FilmStDBContext : DbContext
     {
-        public DbSet<Track> Traks { get; set; }
+        public DbSet<Track> Tracks { get; set; }
         public DbSet<Room> Rooms { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        public FilmStDBContext(DbContextOptions<FilmStDBContext> options)
-            : base(options) { }
+        public FilmStDBContext(string connection): base()
+            { }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace SyncPlayer.SignInForms
+﻿namespace SyncPlayer.SignForms
 {
     partial class SignInForm
     {

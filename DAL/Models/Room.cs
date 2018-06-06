@@ -9,9 +9,9 @@ namespace DAL.Models
     public class Room
     {
         [Key]
-        public string RoomName { get; set; }
-        public string RoomPassword { get; set; }
-        public ICollection<ApplicationUser> UsersInRoom { get; set; }
-        public ICollection<Track> TracksInRoom { get; set; }
+        public string Name { get; set; }
+        public string Password { get; set; }
+        public ICollection<ApplicationUser> UsersIn { get; set; }
+        public ICollection<Track> TracksIn { get; set; }
     }
 }

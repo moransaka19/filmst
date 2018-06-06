@@ -1,4 +1,4 @@
-﻿namespace SyncPlayer
+﻿namespace SyncPlayer.WorkerForms
 {
     partial class PlayerForm
     {
@@ -173,6 +173,7 @@
             this.Controls.Add(this.Player);
             this.Name = "PlayerForm";
             this.Text = "PlayerForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.PlayerForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.Player)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

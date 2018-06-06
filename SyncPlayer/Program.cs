@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SyncPlayer.SignForms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace SyncPlayer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ConnectToRoomForm());
+            Application.Run(new SignInForm());
         }
     }
 }

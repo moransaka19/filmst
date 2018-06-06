@@ -9,7 +9,7 @@ namespace DAL.Models
     public class Track
     {
         [Key]
-        public int TrackName { get; set; }
+        public string TrackName { get; set; }
         public string Author { get; set; }
         public string Genre { get; set; }
         public string Group { get; set; }

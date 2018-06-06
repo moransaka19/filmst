@@ -1,4 +1,4 @@
-﻿using DAL.Identity;
+﻿using DAL.Context;
 using DAL.Interfaces;
 using DAL.Models;
 using System;
@@ -7,41 +7,41 @@ using System.Text;
 
 namespace DAL.Infrastructure
 {
-    class UserRepository : IRepository<ApplicationUser>
+    public class UserRepository : IRepository<ApplicationUser>
     {
-        DBContextSrv _db;
-        public UserRepository(DBContextSrv db)
+        FilmStDBContext _db;
+        public UserRepository(FilmStDBContext db)
         {
             _db = db;
         }
 
         public void Create(ApplicationUser item)
         {
-            _db.Users.Add(item);
+            _db.ApplicationUsers.Add(item);
         }
 
         public ApplicationUser Get(string key)
         {
-            return _db.Users.Find(key);
+            return _db.ApplicationUsers.Find(key);
         }
 
         public IEnumerable<ApplicationUser> GetAll()
         {
-            return _db.Users;
+            return _db.ApplicationUsers;
         }
 
         public void Remove(ApplicationUser item)
         {
-            ApplicationUser user = _db.Users.Find(item.Email);
+            ApplicationUser user = _db.ApplicationUsers.Find(item.Email);
             if (user!=null)
             {
-                _db.Users.Remove(user);
+                _db.ApplicationUsers.Remove(user);
             }
         }
 
         public void Update(ApplicationUser item)
         {
-            _db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+            _db.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
     }
 }

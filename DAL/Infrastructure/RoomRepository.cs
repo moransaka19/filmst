@@ -1,4 +1,4 @@
-﻿using DAL.Identity;
+﻿using DAL.Context;
 using DAL.Interfaces;
 using DAL.Models;
 using System;
@@ -7,11 +7,11 @@ using System.Text;
 
 namespace DAL.Infrastructure
 {
-    class RoomRepository : IRepository<Room>
+    public class RoomRepository : IRepository<Room>
     {
-        DBContextSrv _db;
+        FilmStDBContext _db;
 
-        public RoomRepository(DBContextSrv db)
+        public RoomRepository(FilmStDBContext db)
         {
             _db = db;
         }
@@ -33,7 +33,7 @@ namespace DAL.Infrastructure
 
         public void Remove(Room item)
         {
-            Room room = _db.Rooms.Find(item.RoomName);
+            Room room = _db.Rooms.Find(item.Name);
             if (room!=null)
             {
                 _db.Rooms.Remove(room);
@@ -42,16 +42,16 @@ namespace DAL.Infrastructure
 
         public void AddTrack(Room room,Track track)
         {
-            Room FindRoom = _db.Rooms.Find(room.RoomName);
+            Room FindRoom = _db.Rooms.Find(room.Name);
             if (FindRoom !=null)
             {
-                FindRoom.TracksInRoom.Add(track);
+                FindRoom.TracksIn.Add(track);
             }
         }
 
         public void Update(Room item)
         {
-            _db.Entry(item).State = System.Data.Entity.EntityState.Modified;
+            _db.Entry(item).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using DAL.Identity;
+﻿using DAL.Context;
 using DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -6,15 +6,16 @@ using System.Text;
 
 namespace DAL.Infrastructure
 {
-    class UnitOfWork : IDisposable
+    public class UnitOfWork : IDisposable
     {
         RoomRepository _roomRepository;
         UserRepository _userRepository;
-        DBContextSrv _db;
+        TrackRepository _trackRepository;
+        FilmStDBContext _db;
 
         public UnitOfWork(string connectionString)
         {
-            _db = new DBContextSrv(connectionString);
+            _db = new FilmStDBContext(connectionString);
         }
 
         public RoomRepository Rooms
@@ -38,6 +39,18 @@ namespace DAL.Infrastructure
                     _userRepository = new UserRepository(_db);
                 }
                 return _userRepository;
+            }
+        }
+
+        public TrackRepository Tracks
+        {
+            get
+            {
+                if (_trackRepository == null)
+                {
+                    _trackRepository = new TrackRepository(_db);
+                }
+                return _trackRepository;
             }
         }
 

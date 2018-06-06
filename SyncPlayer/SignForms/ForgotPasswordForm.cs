@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SyncPlayer.SignInForms
+namespace SyncPlayer.SignForms
 {
     public partial class ForgotPasswordForm : MaterialSkin.Controls.MaterialForm
     {
