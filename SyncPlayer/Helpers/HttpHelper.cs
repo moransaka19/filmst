@@ -1,16 +1,11 @@
-﻿using DAL.Models;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using SyncPlayer.Models;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SyncPlayer.Helpers
 {
-    class HttpHelper
+	class HttpHelper
     {
 
         public void HttpPost(ApplicationUser user)

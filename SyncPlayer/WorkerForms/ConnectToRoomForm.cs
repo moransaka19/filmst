@@ -5,11 +5,11 @@ using System.Net.Http;
 using System.Windows.Forms;
 using System.Net;
 using Newtonsoft.Json;
-using DAL.Models;
+using SyncPlayer.Models;
 
 namespace SyncPlayer.WorkerForms
 {
-    public partial class ConnectToRoomForm : MaterialSkin.Controls.MaterialForm
+	public partial class ConnectToRoomForm : MaterialSkin.Controls.MaterialForm
     {
         private List<Track> Playlist;
         private HttpClient client;

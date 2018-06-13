@@ -1,13 +1,11 @@
-﻿using DAL.Models;
-using Microsoft.AspNet.SignalR;
+﻿using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace BLL.Models
 {
-    class ChatRoomHub : Hub
+	class ChatRoomHub : Hub
     {
         static List<ApplicationUser> Users = new List<ApplicationUser>();
 

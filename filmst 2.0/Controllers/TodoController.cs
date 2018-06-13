@@ -2,16 +2,16 @@
 
 
 #define LoggerDI // or CreateLogger or LogException or Scopes
-using filmst_2._0.Interfaces;
+using filmst._0.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using filmst_2._0.Models;
-using filmst_2._0.Events;
+using filmst._0.Models;
+using filmst._0.Events;
 
-namespace filmst_2._0.Controllers
+namespace filmst.Controllers
 {
 #if LoggerDI
     [Route("api/[controller]")]

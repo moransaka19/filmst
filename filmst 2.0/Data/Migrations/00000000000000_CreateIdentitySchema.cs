@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace filmst_2._0.Data.Migrations
+namespace filmst._0.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

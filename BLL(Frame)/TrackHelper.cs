@@ -1,16 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using DAL.Infrastructure;
 using Newtonsoft.Json;
 using DAL.Models;
 
 namespace BLL_Frame_
 {
-    class TrackHelper
+	class TrackHelper
     {
         private string connectionString;
 

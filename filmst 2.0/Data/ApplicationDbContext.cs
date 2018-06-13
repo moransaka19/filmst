@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using filmst._0.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace filmst_2._0.Data
+namespace filmst._0.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
@@ -14,7 +15,10 @@ namespace filmst_2._0.Data
         {
         }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+		public DbSet<Room> Rooms { get; set; }
+		public DbSet<Track> Tracks { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             // Customize the ASP.NET Identity model and override the defaults if needed.

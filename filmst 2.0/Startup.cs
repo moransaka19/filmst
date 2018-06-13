@@ -1,30 +1,21 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using filmst_2._0.Data;
-using filmst_2._0.Services;
-using filmst_2._0.Interfaces;
-using filmst_2._0.Infrastructure;
+using filmst._0.Data;
 using Owin;
+using Swashbuckle.AspNetCore.Swagger;
 
-namespace filmst_2._0
+namespace filmst
 {
-    public class Startup
+	public class Startup
     {
         public Startup(IConfiguration configuration)
         {
             Configurations = configuration;
         }
-
-       
 
         public IConfiguration Configurations { get; }
 
@@ -45,11 +36,14 @@ namespace filmst_2._0
                     options.Conventions.AuthorizePage("/Account/Logout");
                 });
 
-            // Register no-op EmailSender used by account confirmation and password reset during development
-            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-            services.AddSingleton<IEmailSender, EmailSender>();
-            services.AddScoped<ITodoRepository, TodoRepository>();
-        }
+			services.AddSwaggerGen(c =>
+			{
+				c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+			});
+
+			// Register no-op EmailSender used by account confirmation and password reset during development
+			// For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
+		}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -70,7 +64,14 @@ namespace filmst_2._0
             app.UseAuthentication();
 
             app.UseMvc();
-        }
+
+			app.UseSwagger();
+
+			app.UseSwaggerUI(c =>
+			{
+				c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+			});
+		}
         public void Configuration(IAppBuilder app)
         {
             app.MapSignalR();

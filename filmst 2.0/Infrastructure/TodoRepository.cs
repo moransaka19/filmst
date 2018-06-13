@@ -1,12 +1,12 @@
-﻿using filmst_2._0.Interfaces;
-using filmst_2._0.Models;
+﻿using filmst._0.Interfaces;
+using filmst._0.Models;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace filmst_2._0.Infrastructure
+namespace filmst._0.Infrastructure
 {
     public class TodoRepository : ITodoRepository
     {
@@ -20,9 +20,8 @@ namespace filmst_2._0.Infrastructure
 
         public TodoItem Find(string key)
         {
-            TodoItem item;
-            _todos.TryGetValue(key, out item);
-            return item;
+			_todos.TryGetValue(key, out TodoItem item);
+			return item;
         }
 
         public IEnumerable<TodoItem> GetAll()
@@ -32,9 +31,8 @@ namespace filmst_2._0.Infrastructure
 
         public TodoItem Remove(string key)
         {
-            TodoItem item;
-            _todos.TryGetValue(key, out item);
-            _todos.TryRemove(key, out item);
+			_todos.TryGetValue(key, out TodoItem item);
+			_todos.TryRemove(key, out item);
             return item;
         }
 

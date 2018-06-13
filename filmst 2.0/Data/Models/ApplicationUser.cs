@@ -1,12 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace filmst._0.Models
+namespace DAL.Models
 {
-    public class RegisterViewModel
+    public class ApplicationUser
     {
+        [Key]
+        public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
     }

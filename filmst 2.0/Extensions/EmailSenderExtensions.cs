@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using filmst_2._0.Interfaces;
-using filmst_2._0.Services;
+using filmst._0.Interfaces;
+using filmst._0.Services;
 
-namespace filmst_2._0.Services
+namespace filmst._0.Services
 {
     public static class EmailSenderExtensions
     {

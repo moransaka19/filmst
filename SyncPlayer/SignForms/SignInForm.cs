@@ -1,13 +1,13 @@
-﻿using DAL.Models;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
 using SyncPlayer.WorkerForms;
+using SyncPlayer.Models;
 
 namespace SyncPlayer.SignForms
 {
-    public partial class SignInForm : MaterialSkin.Controls.MaterialForm
+	public partial class SignInForm : MaterialSkin.Controls.MaterialForm
     {
         public SignInForm()
         {
