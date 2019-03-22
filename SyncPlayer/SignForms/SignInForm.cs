@@ -7,6 +7,7 @@ using SyncPlayer.Models;
 
 namespace SyncPlayer.SignForms
 {
+    //TODO: Refactor after libs
 	public partial class SignInForm : MaterialSkin.Controls.MaterialForm
     {
         public SignInForm()

@@ -12,8 +12,10 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace filmst.Controllers
 {
+    //TODO: Think about refactor it
+    //TODO: Add logger to each instanse of acc mang
 	[Route("[controller]/[action]")]
-	public class AccountController : Controller
+	public class AccountController : Controller //TODO: Check it/
 	{
 		private readonly SignInManager<ApplicationUser> _signInManager;
 		private readonly ILogger _logger;
@@ -40,7 +42,7 @@ namespace filmst.Controllers
 					return Ok();
 				}
 
-				// Need cath error case 
+				//TODO: Need cath error case 
 			}
 			return BadRequest();
 		}
@@ -58,7 +60,7 @@ namespace filmst.Controllers
 					await _signInManager.SignInAsync(user, isPersistent: false);
 				}
 
-				// Need cath error case 
+				//TODO: Need cath error case 
 				return Ok();
 			}
 

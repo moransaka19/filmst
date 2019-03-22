@@ -5,15 +5,19 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace filmst.Controllers
 {
-	[Authorize]
+    //TODO: Add service for rooms;
+    //TODO: Add repository for rooms;
+    //TODO: Add Unit of work;
+    //TODO: Add logging for each instance
+    //TODO: Add ViewModels; Add DTOs; Add entities layers;
+    //TODO: Add factories for each of type entities;
+    [Authorize]
 	[Route("[controller]/[action]")]
 	public class RoomController : Controller
     {

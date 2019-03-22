@@ -8,6 +8,7 @@ using filmst._0.Services;
 
 namespace filmst._0.Services
 {
+    //TODO: Think about it
     public static class EmailSenderExtensions
     {
         public static Task SendEmailConfirmationAsync(this IEmailSender emailSender, string email, string link)

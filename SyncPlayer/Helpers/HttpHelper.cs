@@ -5,6 +5,8 @@ using System.Net;
 
 namespace SyncPlayer.Helpers
 {
+    //TODO: Make it generic type;
+    //TODO: Replace it to SharedKernel
 	class HttpHelper
     {
 

@@ -16,6 +16,7 @@ namespace filmst.Controllers
 #if LoggerDI
     [Route("api/[controller]")]
     #region snippet_LoggerDI
+    //TODO: Investigate this shit;
     public class TodoController : Controller
     {
         private readonly ITodoRepository _todoRepository;

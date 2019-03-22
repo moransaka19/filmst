@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace filmst._0.Events
 {
+    //TODO: Investigate it;
     public class LoggingEvents
     {
         public const int GenerateItems = 1000;

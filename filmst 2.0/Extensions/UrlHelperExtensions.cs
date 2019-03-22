@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.AspNetCore.Mvc
 {
+    //TODO: Think about it;
     public static class UrlHelperExtensions
     {
         public static string GetLocalUrl(this IUrlHelper urlHelper, string localUrl)
