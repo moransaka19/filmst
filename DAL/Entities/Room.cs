@@ -6,7 +6,7 @@ using System.Text;
 
 namespace DAL.Entities
 {
-	class Room : BaseEntity
+	public class Room : BaseEntity
 	{
 		public string Name { get; set; }
 		public string PasswordHash { get; set; }

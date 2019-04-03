@@ -5,7 +5,7 @@ using SharedKernel.Models;
 
 namespace DAL.Entities
 {
-	class PlayList : BaseEntity
+	public class PlayList : BaseEntity
 	{
 		public long RoomId { get; set; }
 		public Room Room { get; set; }

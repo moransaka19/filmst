@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DAL.Entities
 {
-	class User : IdentityUser<long>
+	public class User : IdentityUser<long>
 	{
 
 	}

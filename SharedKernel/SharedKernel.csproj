@@ -5,8 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Abstractions\Repositories\" />
-    <Folder Include="Abstractions\Contracts\" />
+    <Folder Include="Abstractions\BLL\Contracts\" />
+    <Folder Include="Abstractions\BLL\" />
     <Folder Include="Helpers\" />
     <Folder Include="Extensions\" />
   </ItemGroup>

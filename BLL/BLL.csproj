@@ -11,8 +11,12 @@
 
   <ItemGroup>
     <Folder Include="DTOs\" />
-    <Folder Include="IoC\" />
     <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.0.0" />
+    <PackageReference Include="SimpleInjector.Integration.AspNetCore.Mvc" Version="4.5.1" />
   </ItemGroup>
 
 </Project>

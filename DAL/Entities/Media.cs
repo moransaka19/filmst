@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DAL.Entities
 {
-	class Media
+	public class Media
 	{
 		public string Name { get; set; }
 		public TimeSpan Duration { get; set; }
