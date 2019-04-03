@@ -1,30 +1,31 @@
-﻿using System;
+﻿using SharedKernel.Abstractions.DAL.Models;
+using SharedKernel.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text;
-using SharedKernel.Abstractions.DAL.Models;
-using SharedKernel.Models;
+using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-	public class Message : BaseEntity, IMessage
+	public class UserRoom : IUserRoom
 	{
 		public long UserId { get; set; }
 		public User User { get; set; }
-		public string HashMessage { get; set; }
-		public DateTime DateSent { get; set; }
+
 		public long RoomId { get; set; }
 		public Room Room { get; set; }
 
 		[NotMapped]
-		IUser<long> IMessage.User
+		IUser<long> IUserRoom.User
 		{
 			get => User;
 			set => User = value as User;
 		}
 
 		[NotMapped]
-		IRoom IMessage.Room
+		IRoom IUserRoom.Room
 		{
 			get => Room;
 			set => Room = value as Room;

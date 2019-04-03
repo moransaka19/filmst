@@ -3,6 +3,7 @@ using SharedKernel.Abstractions.DAL.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using SharedKernel.Abstractions.DAL.Models;
 using SharedKernel.Models;
 
 namespace DAL.Repositories

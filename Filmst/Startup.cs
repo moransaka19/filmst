@@ -5,10 +5,13 @@ using System.Reflection;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.Configuration;
+using DAL;
+using DAL.Entities;
 using Filmst.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
@@ -48,6 +51,9 @@ namespace Filmst
 
 			Bootstrap();
 
+			services.AddIdentity<User, IdentityRole<long>>()
+				.AddEntityFrameworkStores<ApplicationContext>();
+
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
 			services.AddSwaggerGen(c =>
@@ -79,6 +85,7 @@ namespace Filmst
 			});
 
 			app.UseHttpsRedirection();
+			app.UseAuthentication();
 			app.UseMvc();
 		}
 
