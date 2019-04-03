@@ -11,7 +11,7 @@ namespace DAL.Repositories
 	{
 		protected DbContext _dbContext;
 
-		public Repository(DbContext dbContext)
+		public Repository(ApplicationContext dbContext)
 		{
 			_dbContext = dbContext;
 		}

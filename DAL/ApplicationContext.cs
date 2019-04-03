@@ -9,13 +9,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DAL
 {
-	class ApplicationContext : DbContext
+	public class ApplicationContext : DbContext
 	{
 		public DbSet<Message> Messages { get; set; }
 		public DbSet<PlayList> PlayLists { get; set; }
 		public DbSet<Room> Rooms { get; set; }
 
-		public ApplicationContext(DbContextOptions options) 
+		public ApplicationContext(DbContextOptions<ApplicationContext> options) 
 			: base(options)
 		{
 		}

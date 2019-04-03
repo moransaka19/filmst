@@ -69,6 +69,8 @@ namespace Filmst
 				app.UseHsts();
 			}
 
+			InitializeContainer(app);
+
 			app.UseSwagger();
 
 			app.UseSwaggerUI(c =>
@@ -124,6 +126,16 @@ namespace Filmst
 
 			services.EnableSimpleInjectorCrossWiring(_container);
 			services.UseSimpleInjectorAspNetRequestScoping(_container);
+		}
+
+		private void InitializeContainer(IApplicationBuilder app)
+		{
+			// Add application presentation components:
+			_container.RegisterMvcControllers(app);
+			_container.RegisterMvcViewComponents(app);
+
+			// Allow Simple Injector to resolve services from ASP.NET Core.
+			_container.AutoCrossWireAspNetComponents(app);
 		}
 
 		private void Bootstrap()
