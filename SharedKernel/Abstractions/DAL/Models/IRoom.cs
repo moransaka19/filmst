@@ -13,5 +13,6 @@ namespace SharedKernel.Abstractions.DAL.Models
 		IPlayList PlayList { get; set; }
 
 		IEnumerable<IUserRoom> UserRooms { get; set; }
+		IEnumerable<IMessage> Messages { get; set; }
 	}
 }

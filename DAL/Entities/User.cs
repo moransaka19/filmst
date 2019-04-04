@@ -18,5 +18,10 @@ namespace DAL.Entities
 			get => UserRooms.Select(ur => ur as IUserRoom);
 			set => UserRooms = value.Select(ur => ur as UserRoom);
 		}
+
+		public User()
+		{
+			UserRooms = new List<UserRoom>();
+		}
 	}
 }

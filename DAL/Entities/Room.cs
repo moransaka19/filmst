@@ -18,6 +18,14 @@ namespace DAL.Entities
 		public long PlayListId { get; set; }
 		public PlayList PlayList { get; set; }
 		public IEnumerable<UserRoom> UserRooms { get; set; }
+		public IEnumerable<Message> Messages { get; set; }
+
+		[NotMapped]
+		IPlayList IRoom.PlayList
+		{
+			get => PlayList;
+			set => PlayList = value as PlayList;
+		}
 
 		[NotMapped]
 		IEnumerable<IUserRoom> IRoom.UserRooms
@@ -27,10 +35,16 @@ namespace DAL.Entities
 		}
 
 		[NotMapped]
-		IPlayList IRoom.PlayList
+		IEnumerable<IMessage> IRoom.Messages
 		{
-			get => PlayList;
-			set => PlayList = value as PlayList;
+			get => Messages.Select(m => m as IMessage);
+			set => Messages = value.Select(m => m as Message);
+		}
+
+		public Room()
+		{
+			UserRooms = new List<UserRoom>();
+			Messages = new List<Message>();
 		}
 	}
 }

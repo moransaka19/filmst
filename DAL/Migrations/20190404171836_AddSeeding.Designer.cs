@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190404171836_AddSeeding")]
+    partial class AddSeeding
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,15 +37,13 @@ namespace DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoomId");
-
                     b.ToTable("Messages");
 
                     b.HasData(
                         new
                         {
                             Id = 1L,
-                            DateSent = new DateTime(2019, 4, 4, 17, 39, 19, 55, DateTimeKind.Utc).AddTicks(450),
+                            DateSent = new DateTime(2019, 4, 4, 17, 18, 35, 703, DateTimeKind.Utc).AddTicks(3838),
                             HashMessage = "SomeMessage",
                             RoomId = 1L,
                             UserId = 1L
@@ -163,7 +163,7 @@ namespace DAL.Migrations
                         {
                             Id = 1L,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b0c6f4fd-ad40-4076-915d-290edf02bccc",
+                            ConcurrencyStamp = "92183c3f-a5af-463f-bf2e-77e0183469e7",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
@@ -221,7 +221,7 @@ namespace DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            ConcurrencyStamp = "ee243c3c-d847-404d-8c49-4915bc659159",
+                            ConcurrencyStamp = "461ae62e-86c8-4930-9fc1-740930ceb4ff",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -308,14 +308,6 @@ namespace DAL.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("DAL.Entities.Message", b =>
-                {
-                    b.HasOne("DAL.Entities.Room", "Room")
-                        .WithMany("Messages")
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DAL.Entities.PlayList", b =>
