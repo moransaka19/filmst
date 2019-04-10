@@ -7,6 +7,7 @@ using SharedKernel.Models;
 
 namespace DAL.Entities
 {
+	// Create
 	public class Message : BaseEntity, IMessage
 	{
 		public long UserId { get; set; }

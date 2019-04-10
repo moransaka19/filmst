@@ -7,6 +7,13 @@ using SharedKernel.Models;
 
 namespace DAL.Entities
 {
+	// Update
+	// Read
+	// Compare
+	// Play
+	// Pause
+	// Stop
+
 	public class PlayList : BaseEntity, IPlayList
 	{
 		public long RoomId { get; set; }

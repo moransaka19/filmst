@@ -43,7 +43,7 @@ namespace DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            DateSent = new DateTime(2019, 4, 4, 17, 39, 19, 55, DateTimeKind.Utc).AddTicks(450),
+                            DateSent = new DateTime(2019, 4, 10, 9, 59, 17, 727, DateTimeKind.Utc).AddTicks(4390),
                             HashMessage = "SomeMessage",
                             RoomId = 1L,
                             UserId = 1L
@@ -163,7 +163,7 @@ namespace DAL.Migrations
                         {
                             Id = 1L,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b0c6f4fd-ad40-4076-915d-290edf02bccc",
+                            ConcurrencyStamp = "6e37a5d7-e23a-413f-80d7-f6d927a17633",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
@@ -221,7 +221,7 @@ namespace DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            ConcurrencyStamp = "ee243c3c-d847-404d-8c49-4915bc659159",
+                            ConcurrencyStamp = "5dd2927f-d8ed-457b-a34a-9580402531ca",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

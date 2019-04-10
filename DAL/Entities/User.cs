@@ -8,6 +8,15 @@ using SharedKernel.Abstractions.DAL.Models;
 
 namespace DAL.Entities
 {
+	// login
+	// true + user
+	// or 
+	// null
+
+	// Register
+	// true + user
+	// or
+	// UsernameAlreadyExists
 	public class User : IdentityUser<long>, IUser<long>
 	{
 		public IEnumerable<UserRoom> UserRooms { get; set; }

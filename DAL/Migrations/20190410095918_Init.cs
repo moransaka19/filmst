@@ -50,22 +50,6 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Messages",
-                columns: table => new
-                {
-                    Id = table.Column<long>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<long>(nullable: false),
-                    HashMessage = table.Column<string>(nullable: true),
-                    DateSent = table.Column<DateTime>(nullable: false),
-                    RoomId = table.Column<long>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Rooms",
                 columns: table => new
                 {
@@ -189,6 +173,28 @@ namespace DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<long>(nullable: false),
+                    HashMessage = table.Column<string>(nullable: true),
+                    DateSent = table.Column<DateTime>(nullable: false),
+                    RoomId = table.Column<long>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Messages_Rooms_RoomId",
+                        column: x => x.RoomId,
+                        principalTable: "Rooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PlayLists",
                 columns: table => new
                 {
@@ -232,6 +238,36 @@ namespace DAL.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { 1L, "5dd2927f-d8ed-457b-a34a-9580402531ca", "Admin", "ADMIN" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { 1L, 0, "6e37a5d7-e23a-413f-80d7-f6d927a17633", null, false, false, null, null, "ADMIN", null, null, false, null, false, "admin" });
+
+            migrationBuilder.InsertData(
+                table: "Rooms",
+                columns: new[] { "Id", "HostId", "Name", "PasswordHash", "PlayListId", "UniqName" },
+                values: new object[] { 1L, 0L, "Room1", null, 0L, "UniqRoomNameAzaza" });
+
+            migrationBuilder.InsertData(
+                table: "Messages",
+                columns: new[] { "Id", "DateSent", "HashMessage", "RoomId", "UserId" },
+                values: new object[] { 1L, new DateTime(2019, 4, 10, 9, 59, 17, 727, DateTimeKind.Utc).AddTicks(4390), "SomeMessage", 1L, 1L });
+
+            migrationBuilder.InsertData(
+                table: "PlayLists",
+                columns: new[] { "Id", "RoomId", "TrackCurrentTime" },
+                values: new object[] { 1L, 1L, new TimeSpan(0, 0, 0, 0, 0) });
+
+            migrationBuilder.InsertData(
+                table: "UserRoom",
+                columns: new[] { "RoomId", "UserId" },
+                values: new object[] { 1L, 1L });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -270,6 +306,11 @@ namespace DAL.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Messages_RoomId",
+                table: "Messages",
+                column: "RoomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PlayLists_RoomId",

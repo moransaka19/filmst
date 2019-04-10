@@ -8,6 +8,10 @@ using SharedKernel.Abstractions.DAL.Models;
 
 namespace DAL.Entities
 {
+	// Create
+	// Update
+	// Read
+
 	public class Room : BaseEntity, IRoom
 	{
 		public string Name { get; set; }

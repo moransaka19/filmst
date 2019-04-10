@@ -39,8 +39,8 @@ namespace Filmst
 
 		public IConfiguration Configuration { get; }
 
-		private MapperConfigurationExpression _cfg;
-		private Container _container;
+		private readonly MapperConfigurationExpression _cfg;
+		private readonly Container _container;
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)

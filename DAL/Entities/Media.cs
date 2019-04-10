@@ -6,6 +6,8 @@ using SharedKernel.Abstractions.DAL.Models;
 
 namespace DAL.Entities
 {
+	// Create
+	// Read
 	public class Media : IMedia
 	{
 		public string Name { get; set; }
@@ -15,15 +17,15 @@ namespace DAL.Entities
 		public string Genre { get; set; }
 		public string Singler { get; set; }
 		public long PlayListId { get; set; }
-		public PlayList PlayList { get; set; }
+		private PlayList _playList { get; set; }
 		public double BitRate { get; set; }
 		public double Rate { get; set; }
 
 		[NotMapped]
 		IPlayList IMedia.PlayList
 		{
-			get => PlayList;
-			set => PlayList = value as PlayList;
+			get => _playList;
+			set => _playList = value as PlayList;
 		}
 	}
 }
