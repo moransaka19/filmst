@@ -9,6 +9,6 @@ namespace SharedKernel.Abstractions.BLL.Services
 {
 	public interface IMessageService
 	{
-		void Add(IMessageDTO dto);
+		Task AddAsync(IMessageDTO dto);
 	}
 }

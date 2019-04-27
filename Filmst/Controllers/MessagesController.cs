@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PLL.ViewModels.Messages;
 using SharedKernel.Abstractions.PLL.Messages;
@@ -7,6 +8,7 @@ namespace Filmst.Controllers
 {
 	[Route("api/[controller]")]
     [ApiController]
+	[Authorize]
     public class MessagesController : ControllerBase
     {
 		private readonly IMessageController _messageController;
@@ -17,9 +19,9 @@ namespace Filmst.Controllers
 		}
 
 	    [HttpPost]
-	    public IActionResult Post([FromBody] AddMessageViewModel model)
+	    public async Task<IActionResult> Post([FromBody] AddMessageViewModel model)
 	    {
-		    _messageController.Add(model);
+		    await _messageController.AddAsync(model);
 
 		    return NoContent();
 	    }

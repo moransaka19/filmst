@@ -20,9 +20,9 @@ namespace PLL.Controllers
 			_messageService = messageService;
 		}
 
-		public void Add(IAddMessageViewModel model)
+		public async Task AddAsync(IAddMessageViewModel model)
 		{
-			_messageService.Add(Mapper.Map<IMessageDTO>(model));
+			await _messageService.AddAsync(Mapper.Map<IMessageDTO>(model));
 		}
 	}
 }

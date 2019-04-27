@@ -9,6 +9,6 @@ namespace SharedKernel.Abstractions.PLL.Messages
 {
 	public interface IMessageController
 	{
-		void Add(IAddMessageViewModel model);
+		Task AddAsync(IAddMessageViewModel model);
 	}
 }
