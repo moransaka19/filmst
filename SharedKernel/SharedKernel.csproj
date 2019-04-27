@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Abstractions\BLL\Contracts\" />
-    <Folder Include="Abstractions\BLL\" />
     <Folder Include="Helpers\" />
     <Folder Include="Extensions\" />
   </ItemGroup>

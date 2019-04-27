@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using AutoMapper.Configuration;
-using SimpleInjector;
+﻿using AutoMapper.Configuration;
 
 namespace Filmst.IoC
 {
@@ -14,7 +8,7 @@ namespace Filmst.IoC
 		{
 			
 
-			BLL.IoC.MapperBootstrapper.Bootstrap(cfg);
+			PLL.IoC.MapperBootstrapper.Bootstrap(cfg);
 		}
 	}
 }

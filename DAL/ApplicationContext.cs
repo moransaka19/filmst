@@ -12,7 +12,7 @@ namespace DAL
 		public DbSet<PlayList> PlayLists { get; set; }
 		public DbSet<Room> Rooms { get; set; }
 
-		public ApplicationContext(DbContextOptions<ApplicationContext> options) 
+		public ApplicationContext(DbContextOptions<ApplicationContext> options)
 			: base(options)
 		{
 		}
@@ -47,21 +47,25 @@ namespace DAL
 			#endregion
 
 			#region DataSeeding
+			
+			var user = new User()
+			{
+				Id = 1,
+				UserName = "admin",
+				NormalizedUserName = "admin".ToUpper()
+			};
+
+			user.PasswordHash = new PasswordHasher<User>().HashPassword(user, "Password1");
+
+			modelBuilder.Entity<User>()
+				.HasData(user);
 
 			modelBuilder.Entity<IdentityRole<long>>()
 				.HasData(new IdentityRole<long> { Id = 1, Name = "Admin", NormalizedName = "Admin".ToUpper() });
 
 			modelBuilder.Entity<UserRoom>()
 				.HasData(new UserRoom { UserId = 1, RoomId = 1 });
-
-			modelBuilder.Entity<User>()
-				.HasData(new User()
-				{
-					Id = 1,
-					UserName = "admin",
-					NormalizedUserName = "admin".ToUpper(),
-				});
-
+			
 			modelBuilder.Entity<Message>()
 				.HasData(new Message()
 				{

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper.Configuration;
+﻿using AutoMapper.Configuration;
 
 namespace PLL.IoC
 {
@@ -12,6 +7,7 @@ namespace PLL.IoC
 		public static void Bootstrap(MapperConfigurationExpression cfg)
 		{
 
+			BLL.IoC.MapperBootstrapper.Bootstrap(cfg);
 		}
 	}
 }

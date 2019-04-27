@@ -10,8 +10,8 @@ namespace Filmst.IoC
 	{
 		public static void Bootstrap(Container container)
 		{
-		
-			BLL.IoC.Bootstrapper.Bootstrap(container);
+
+			PLL.IoC.Bootstrapper.Bootstrap(container);
 		}
 	}
 }

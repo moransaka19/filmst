@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PLL.Controllers;
+using SharedKernel.Abstractions.PLL.Auth;
 using SimpleInjector;
 
 namespace PLL.IoC
@@ -11,7 +8,9 @@ namespace PLL.IoC
 	{
 		public static void Bootstrap(Container container)
 		{
+			container.Register<IAuthController, AuthController>();
 
+			BLL.IoC.Bootstrapper.Bootstrap(container);
 		}
 	}
 }

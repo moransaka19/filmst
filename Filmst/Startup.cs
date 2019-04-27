@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
+﻿using System.Text;
 using AutoMapper;
 using AutoMapper.Configuration;
 using DAL;
 using DAL.Entities;
 using Filmst.IoC;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -18,8 +14,7 @@ using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using SimpleInjector;
 using SimpleInjector.Integration.AspNetCore.Mvc;
 using SimpleInjector.Lifestyles;
@@ -45,14 +40,38 @@ namespace Filmst
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			AddDbContext(services);
-
 			IntegrateSimpleInjector(services);
 
 			Bootstrap();
 
-			services.AddIdentity<User, IdentityRole<long>>()
+			services.AddDbContext<ApplicationContext>(options => 
+				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+			services.AddIdentity<User, IdentityRole<long>>(opts =>
+				{
+					opts.Password.RequireNonAlphanumeric = false;
+				})
 				.AddEntityFrameworkStores<ApplicationContext>();
+
+			services.AddAuthentication(options =>
+				{
+					options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+					options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+				})
+				.AddJwtBearer(options =>
+				{
+					options.RequireHttpsMetadata = false;
+					options.TokenValidationParameters = new TokenValidationParameters
+					{
+						ValidateIssuer = true,
+						ValidIssuer = Configuration["AuthOptions:ISSUER"],
+						ValidateAudience = true,
+						ValidAudience = Configuration["AuthOptions:AUDIENCE"],
+						ValidateLifetime = true,
+						IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["AuthOptions:KEY"])),
+						ValidateIssuerSigningKey = true,
+					};
+				});
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
@@ -87,36 +106,6 @@ namespace Filmst
 			app.UseHttpsRedirection();
 			app.UseAuthentication();
 			app.UseMvc();
-		}
-
-		private void AddDbContext(IServiceCollection services)
-		{
-			var AddDbContext = typeof(EntityFrameworkServiceCollectionExtensions)
-				.GetMethod("AddDbContext", 1,
-					new Type[]
-					{
-						typeof(IServiceCollection),
-						typeof(Action<DbContextOptionsBuilder>),
-						typeof(ServiceLifetime),
-						typeof(ServiceLifetime)
-					});
-
-			var applicationContextType = Assembly
-				.Load("DAL")
-				.GetTypes()
-				.Where(t => t.IsSubclassOf(typeof(DbContext)))
-				.Single();
-
-			AddDbContext
-				.MakeGenericMethod(applicationContextType)
-				.Invoke(services, new object[]
-				{
-					services,
-					(Action<DbContextOptionsBuilder>)(options =>
-						options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))),
-					ServiceLifetime.Scoped,
-					ServiceLifetime.Scoped
-				});
 		}
 
 		private void IntegrateSimpleInjector(IServiceCollection services)
