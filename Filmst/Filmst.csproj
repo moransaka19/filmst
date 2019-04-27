@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="VIewModels\**" />
+    <Content Remove="VIewModels\**" />
+    <EmbeddedResource Remove="VIewModels\**" />
+    <None Remove="VIewModels\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
@@ -18,10 +25,6 @@
     <ProjectReference Include="..\BLL\BLL.csproj" />
     <ProjectReference Include="..\PLL\PLL.csproj" />
     <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="VIewModels\" />
   </ItemGroup>
 
 </Project>

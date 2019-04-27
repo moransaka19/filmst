@@ -5,12 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DAL\DAL.csproj" />
-    <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
+    <Compile Remove="DTOs\**" />
+    <EmbeddedResource Remove="DTOs\**" />
+    <None Remove="DTOs\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
+    <ProjectReference Include="..\DAL\DAL.csproj" />
+    <ProjectReference Include="..\SharedKernel\SharedKernel.csproj" />
   </ItemGroup>
 
   <ItemGroup>

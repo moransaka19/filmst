@@ -76,6 +76,10 @@ namespace DAL
 					HashMessage = "SomeMessage"
 				});
 
+			modelBuilder.Entity<Message>()
+				.Property(m => m.DateSent)
+				.HasDefaultValueSql("getutcdate()");
+
 			modelBuilder.Entity<Room>()
 				.HasData(new Room()
 				{
