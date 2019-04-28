@@ -20,8 +20,13 @@ namespace DAL.Entities
 		private PlayList _playList { get; set; }
 		public double BitRate { get; set; }
 		public double Rate { get; set; }
+        public string Album { get; set; }
+        public string Description { get; set; }
+        public string MimeType { get; set; }
+        public decimal StartPosition { get; set; }
+        public decimal EndPostiotion { get; set; }
 
-		[NotMapped]
+        [NotMapped]
 		IPlayList IMedia.PlayList
 		{
 			get => _playList;
