@@ -18,5 +18,10 @@ namespace SharedKernel.Abstractions.DAL.Models
 		IPlayList PlayList { get; set; }
 		double BitRate { get; set; }
 		double Rate { get; set; }
+        string Album { get; set; }
+        string Description { get; set; }
+        string MimeType { get; set; }
+        decimal StartPosition { get; set; }
+        decimal EndPostiotion { get; set; }
 	}
 }
