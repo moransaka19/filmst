@@ -11,6 +11,7 @@ namespace BLL.IoC
 			container.Register<ITokenService, TokenService>();
 			container.Register<IAuthService, AuthService>();
 			container.Register<IMessageService, MessageService>();
+			container.Register<IRoomService, RoomService>();
 
 			DAL.IoC.Bootstrapper.Bootstrap(container);
 		}

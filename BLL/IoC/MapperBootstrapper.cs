@@ -1,6 +1,11 @@
-﻿using AutoMapper.Configuration;
+﻿using System.Linq;
+using System.Reflection;
+using AutoMapper.Configuration;
 using DAL.Entities;
+using Microsoft.EntityFrameworkCore.Internal;
 using SharedKernel.Abstractions.BLL.DTOs.Messages;
+using SharedKernel.Abstractions.BLL.DTOs.Rooms;
+using SharedKernel.Extensions;
 
 namespace BLL.IoC
 {
@@ -8,13 +13,7 @@ namespace BLL.IoC
 	{
 		public static void Bootstrap(MapperConfigurationExpression cfg)
 		{
-			cfg.CreateMap<IMessageDTO, Message>()
-				.ForMember(m => m.Room, opt => opt.Ignore())
-				.ForMember(m => m.User, opt => opt.Ignore())
-				
-				// TODO: Get hash messahe
-				.ForMember(m => m.HashMessage, 
-					opt => opt.MapFrom(dto => dto.Message));
+			cfg.AddProfiles(Assembly.GetExecutingAssembly());
 
 			DAL.IoC.MapperBootstrapper.Bootstrap(cfg);
 		}

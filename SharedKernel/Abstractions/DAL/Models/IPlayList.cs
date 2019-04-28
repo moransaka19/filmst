@@ -11,6 +11,7 @@ namespace SharedKernel.Abstractions.DAL.Models
 		long RoomId { get; set; }
 		IRoom Room { get; set; }
 
+		IEnumerable<IMedia> Medias { get; set; }
 		TimeSpan TrackCurrentTime { get; set; }
 	}
 }
