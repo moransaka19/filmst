@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 using TagLib;
 using DAL.Entities;
 using SharedKernel.Abstractions.PLL.Media;
+using SharedKernel.Abstractions.DAL.Models;
 
 namespace PLL.Services
 {
     public class MediaService : IMediaService
     {
-        public static IMedia GetMedia(string fullPath)
+        public IMedia GetMedia(string fullPath)
         {
             IMedia result = null;
             if (!string.IsNullOrEmpty(fullPath) && System.IO.File.Exists(fullPath))
@@ -23,7 +24,7 @@ namespace PLL.Services
                         Name = file.Name,
                         Duration = file.Properties.Duration,
                         FileName = fullPath,
-                        Type = file.Properties.MediaTypes,
+                        Type = file.Properties.MediaTypes.ToString(),
                         Genre = file.Tag.Genres.Aggregate((cur, next) => $"{cur},{next}"),
                         Singler = file.Tag.Artists.Aggregate((cur, next) => $"{cur},{next}"),
                         BitRate = file.Properties.AudioBitrate,
@@ -40,10 +41,10 @@ namespace PLL.Services
             return result;
         }
 
-        IEnumerable<IMedia> GetMedia(params string[] fullPaths)
+        public IEnumerable<IMedia> GetMedia(params string[] fullPaths)
         {
-            IEnumerable<IMedia> result = Enumerable.Empty<IMedia>();
-            foreach (var fulPath in fullPaths.Where(path => !string.IsNullOrEmpty(path) && System.IO.File.Exists(path)))
+            List<IMedia> result = new List<IMedia>();
+            foreach (var fullPath in fullPaths.Where(path => !string.IsNullOrEmpty(path) && System.IO.File.Exists(path)))
             {
                 using (File file = File.Create(fullPath))
                 {
@@ -52,7 +53,7 @@ namespace PLL.Services
                         Name = file.Name,
                         Duration = file.Properties.Duration,
                         FileName = fullPath,
-                        Type = file.Properties.MediaTypes,
+                        Type = file.Properties.MediaTypes.ToString(),
                         Genre = file.Tag.Genres.Aggregate((cur, next) => $"{cur},{next}"),
                         Singler = file.Tag.Artists.Aggregate((cur, next) => $"{cur},{next}"),
                         BitRate = file.Properties.AudioBitrate,
@@ -63,8 +64,8 @@ namespace PLL.Services
                         StartPosition = file.InvariantStartPosition,
                         EndPostiotion = file.InvariantEndPosition
                     };
+					result.Add(mediaFile);
                 }
-                result = result.Append(mediaFile);
             }
             return result;
         }
