@@ -7,6 +7,7 @@ using AutoMapper;
 using DAL.Entities;
 using SharedKernel.Abstractions.BLL.DTOs.Rooms;
 using SharedKernel.Extensions;
+using SharedKernel.Helpers;
 
 namespace BLL.IoC.Profiles
 {
@@ -15,12 +16,12 @@ namespace BLL.IoC.Profiles
 		public RoomMappingProfile()
 		{
 			CreateMap<IAddRoomDTO, Room>()
-				   .ForMember(r => r.PasswordHash, opt => opt.MapFrom(dto => dto.Password.GetHashCode()));
+				   .ForMember(r => r.PasswordHash, opt => opt.MapFrom(dto => HashPasswordHelper.GetPasswordHash(dto.Password)));
 
 			CreateMap<IUpdateRoomDTO, Room>()
-				.ForMember(r => r.PasswordHash, opt => opt.MapFrom(dto => dto.Password.GetHashCode()))
+				.ForMember(r => r.PasswordHash, opt => opt.MapFrom(dto => HashPasswordHelper.GetPasswordHash(dto.Password)))
 				.ForMember(r => r.UserRooms, opt => opt.MapFrom(dto =>
-					dto.UserIds.Select(uid => new UserRoom() { UserId = uid, RoomId = dto.Id })))
+					dto.UserIds.Select(uid => new UserRoom(uid, dto.Id))))
 
 				.ForMember(r => r.UserRooms, opt => opt.PreCondition(dto => !dto.UserIds.IsNullOrEmpty()))
 				.ForMember(r => r.PasswordHash, opt => opt.Condition(dto => dto.Password != default))

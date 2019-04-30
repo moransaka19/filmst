@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TagLib;
 using DAL.Entities;
 using SharedKernel.Abstractions.PLL.Media;
 using SharedKernel.Abstractions.DAL.Models;
+using SharedKernel.Extensions;
 
 namespace PLL.Services
 {
-    public class MediaService : IMediaService
+	public class MediaService : IMediaService
     {
         public IMedia GetMedia(string fullPath)
         {
             IMedia result = null;
-            if (!string.IsNullOrEmpty(fullPath) && System.IO.File.Exists(fullPath))
+            if (fullPath.IsNullOrEmpty() && System.IO.File.Exists(fullPath))
             {
                 using (File file = File.Create(fullPath))
                 {
@@ -44,7 +42,7 @@ namespace PLL.Services
         public IEnumerable<IMedia> GetMedia(params string[] fullPaths)
         {
             List<IMedia> result = new List<IMedia>();
-            foreach (var fullPath in fullPaths.Where(path => !string.IsNullOrEmpty(path) && System.IO.File.Exists(path)))
+            foreach (var fullPath in fullPaths.Where(path => !path.IsNullOrEmpty() && System.IO.File.Exists(path)))
             {
                 using (File file = File.Create(fullPath))
                 {

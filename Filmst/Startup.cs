@@ -1,8 +1,10 @@
 ﻿using System.Text;
+using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.Configuration;
 using DAL;
 using DAL.Entities;
+using Filmst.Controllers;
 using Filmst.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -77,6 +79,8 @@ namespace Filmst
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+			services.AddSignalR();
+
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
@@ -98,6 +102,13 @@ namespace Filmst
 
 			InitializeContainer(app);
 
+			app.UseCors(builder =>
+				builder
+					.AllowAnyOrigin()
+					.AllowAnyMethod()
+					.AllowAnyHeader()
+					.AllowCredentials());
+
 			app.UseSwagger();
 
 			app.UseSwaggerUI(c =>
@@ -107,6 +118,13 @@ namespace Filmst
 
 			app.UseHttpsRedirection();
 			app.UseAuthentication();
+
+
+			app.UseSignalR(routes =>
+			{
+				routes.MapHub<RoomHub>("/room");
+			});
+
 			app.UseMvc();
 		}
 

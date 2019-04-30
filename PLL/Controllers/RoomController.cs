@@ -29,5 +29,15 @@ namespace PLL.Controllers
 		{
 			await _roomService.UpdateAysnc(Mapper.Map<IUpdateRoomDTO>(model));
 		}
+		
+		public async Task SignInAsync(ISignInRoomViewModel model)
+		{
+			await _roomService.SignInAsync(Mapper.Map<ISignInRoomDTO>(model));
+		}
+
+		public string GetRoom()
+		{
+			return _roomService.GetRoom();
+		}
 	}
 }

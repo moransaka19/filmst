@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Abstractions.BLL.DTOs.Rooms
 {
-	public interface IRoomDTO
+	public interface ISignInRoomDTO
 	{
-		string Name { get; set; }
 		string UniqName { get; set; }
-		long HostId { get; set; }
-		
-		IEnumerable<long> UserIds { get; set; }
+		string Password { get; set; }
 	}
 }

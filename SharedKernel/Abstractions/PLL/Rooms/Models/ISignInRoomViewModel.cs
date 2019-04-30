@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Abstractions.PLL.Rooms.Models
 {
-	public interface IRoomViewModel
+	public interface ISignInRoomViewModel
 	{
-		string Name { get; set; }
+		string UniqName { get; set; }
 		string Password { get; set; }
 	}
 }

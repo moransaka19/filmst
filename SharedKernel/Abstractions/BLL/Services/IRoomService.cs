@@ -11,5 +11,7 @@ namespace SharedKernel.Abstractions.BLL.Services
 	{
 		Task AddAsync(IAddRoomDTO dto);
 		Task UpdateAysnc(IUpdateRoomDTO dto);
+		Task SignInAsync(ISignInRoomDTO dto);
+		string GetRoom();
 	}
 }

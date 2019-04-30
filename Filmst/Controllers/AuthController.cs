@@ -28,14 +28,18 @@ namespace Filmst.Controllers
 			}
 			catch (UserNotFoundException)
 			{
-				return NotFound(new { Ok = false, ErrorMessage = "User not found" });
+				return NotFound(new {Message = "User not found"});
 			}
 			catch (IncorrectPasswordException)
 			{
-				return BadRequest(new { Ok = false, ErrorMessage = "Incorrect password" });
+				return BadRequest(new {Message = "Incorrect password"});
+			}
+			catch
+			{
+				return StatusCode(500);
 			}
 
-			return Ok(new { Ok = true, Result = res });
+			return Ok(res);
 		}
 
 		[HttpPost("Register")]
@@ -50,10 +54,14 @@ namespace Filmst.Controllers
 			}
 			catch (UserNotRegisteredException e)
 			{
-				return BadRequest(new { Ok = false, ErrorMessage = e.Message });
+				return BadRequest(new {e.Message});
+			}
+			catch
+			{
+				return StatusCode(500);
 			}
 
-			return Ok(new { Ok = true, Result = res });
+			return Ok(res);
 		}
 	}
 }

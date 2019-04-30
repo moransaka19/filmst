@@ -4,14 +4,16 @@ using DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DAL.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20190430104030_AddPasswordSeedingToRoom")]
+    partial class AddPasswordSeedingToRoom
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +47,7 @@ namespace DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            DateSent = new DateTime(2019, 4, 30, 11, 54, 20, 755, DateTimeKind.Utc).AddTicks(9668),
+                            DateSent = new DateTime(2019, 4, 30, 10, 40, 29, 174, DateTimeKind.Utc).AddTicks(2038),
                             HashMessage = "SomeMessage",
                             RoomId = 1L,
                             UserId = 1L
@@ -104,7 +106,7 @@ namespace DAL.Migrations
                             Id = 1L,
                             HostId = 0L,
                             Name = "Room1",
-                            PasswordHash = "19513FDC9DA4FB72A4A05EB66917548D3C90FF94D5419E1F2363EEA89DFEE1DD",
+                            PasswordHash = "258113043",
                             PlayListId = 0L,
                             UniqName = "UniqRoomNameAzaza"
                         });
@@ -166,27 +168,14 @@ namespace DAL.Migrations
                         {
                             Id = 1L,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "47ecccdc-dc56-4b65-b568-bad2af84519c",
+                            ConcurrencyStamp = "69e27eef-3f7e-456a-9056-b94057d0846f",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIMRzEcPUAtK7lOI/LxRU68lGVFKXkWXT2VaU4d2+rg5LF+LHgKlPNd2/hEKh6X1OA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHDfANTYAkN5F5sqwkRGfKL5jfRV5wq257WLk4U+04VGx2QafoGgdrEwA6ElSjjA8Q==",
                             PhoneNumberConfirmed = false,
                             TwoFactorEnabled = false,
                             UserName = "admin"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "be70c74a-70e7-41ba-8bf3-cd7409c4f6a1",
-                            EmailConfirmed = false,
-                            LockoutEnabled = false,
-                            NormalizedUserName = "ADMIN1",
-                            PasswordHash = "AQAAAAEAACcQAAAAED5dDU2HLojuvOGgvQi218xirzYlFl3MaEX3mplrfV7T2wWkj2fP2x9YxdShPxFtNw==",
-                            PhoneNumberConfirmed = false,
-                            TwoFactorEnabled = false,
-                            UserName = "admin1"
                         });
                 });
 
@@ -238,7 +227,7 @@ namespace DAL.Migrations
                         new
                         {
                             Id = 1L,
-                            ConcurrencyStamp = "dbf47722-6141-4fa9-880d-07593dff1228",
+                            ConcurrencyStamp = "b1d7f446-f462-4bcb-8970-71f92061a862",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });

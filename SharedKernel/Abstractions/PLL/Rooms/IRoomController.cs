@@ -9,8 +9,9 @@ namespace SharedKernel.Abstractions.PLL.Rooms
 {
 	public interface IRoomController
 	{
-		
 		Task AddAsync(IAddRoomViewModel model);
 		Task UpdateAsync(IUpdateRoomViewModel model);
+		Task SignInAsync(ISignInRoomViewModel model);
+		string GetRoom();
 	}
 }

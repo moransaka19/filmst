@@ -7,9 +7,9 @@ using SharedKernel.Abstractions.PLL.Rooms.Models;
 
 namespace PLL.ViewModels.Rooms
 {
-	public class RoomViewModel : IRoomViewModel
+	public class SignInRoomViewModel : ISignInRoomViewModel
 	{
-		public string Name { get; set; }
+		public string UniqName { get; set; }
 		public string Password { get; set; }
 	}
 }
