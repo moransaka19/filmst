@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using SharedKernel.Abstractions.PLL.Rooms;
+using SharedKernel.Exceptions;
 using SharedKernel.Extensions;
 
 namespace Filmst.Controllers
@@ -13,41 +14,55 @@ namespace Filmst.Controllers
 	[Authorize]
 	public class RoomHub : Hub
 	{
+		private readonly IRoomController _roomController;
+
+		private string _room => Context.User.FindFirstValue("room");
+
+
 		public RoomHub(IRoomController roomController)
 		{
-			
-		}	
+			_roomController = roomController;
+		}
 
 		public override async Task OnConnectedAsync()
 		{
-			Context.User.AddIdentity(new ClaimsIdentity(new Claim[] {new Claim("room", "room1"), }));
+			var room = _roomController.GetRoomName();
+
+			if (room == null)
+				throw new UserIsNotInTheRoomException();
+
+			await Groups.AddToGroupAsync(Context.ConnectionId, room);
+
+			Context.User.AddIdentity(new ClaimsIdentity(new Claim[] { new Claim("room", room), }));
+
+			await Clients.Group(room).SendAsync("UserConnected", Context.User.Identity.Name);
 		}
 
 		public override async Task OnDisconnectedAsync(Exception exception)
 		{
-			throw new NotImplementedException();
+			_roomController.DisconnectFromRoom();
+
+			await Clients.Group(_room).SendAsync("UserDisconnected", Context.User.Identity.Name);
 		}
 
 		public async Task Message(string message)
 		{
-
-			var a = Context.User.FindFirst("room");
-			await Clients.OthersInGroup(a.Value).SendAsync("Receive", Context.User.Identity.Name, message);
+			await Clients.OthersInGroup(_room).SendAsync("Receive", Context.User.Identity.Name, message);
 		}
 
 		public async Task Play()
 		{
-			await Clients.All.SendAsync("Play");
+			await Clients.OthersInGroup(_room).SendAsync("Play");
 		}
 
 		public async Task Pause()
 		{
-			await Clients.All.SendAsync("Pause");
+			await Clients.OthersInGroup(_room).SendAsync("Pause");
 		}
 
 		public async Task Stop()
 		{
-			await Clients.All.SendAsync("Stop");
+			await Clients.OthersInGroup(_room).SendAsync("Stop");
 		}
 	}
 }

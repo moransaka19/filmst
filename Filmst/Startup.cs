@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.Configuration;
@@ -8,11 +9,13 @@ using Filmst.Controllers;
 using Filmst.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -43,6 +46,8 @@ namespace Filmst
 		public void ConfigureServices(IServiceCollection services)
 		{
 			IntegrateSimpleInjector(services);
+
+			FixDIInSignalRHub(services);
 
 			Bootstrap();
 
@@ -138,20 +143,14 @@ namespace Filmst
 			services.AddSingleton<IViewComponentActivator>(
 				new SimpleInjectorViewComponentActivator(_container));
 
-			services.AddHttpContextAccessor();
-
 			services.EnableSimpleInjectorCrossWiring(_container);
 			services.UseSimpleInjectorAspNetRequestScoping(_container);
 		}
 
-		private void InitializeContainer(IApplicationBuilder app)
+		private void FixDIInSignalRHub(IServiceCollection services)
 		{
-			// Add application presentation components:
-			_container.RegisterMvcControllers(app);
-			_container.RegisterMvcViewComponents(app);
-
-			// Allow Simple Injector to resolve services from ASP.NET Core.
-			_container.AutoCrossWireAspNetComponents(app);
+			services.AddSingleton(_container);
+			services.AddSingleton(typeof(IHubActivator<>), typeof(SimpleInjectorHubActivator<>));
 		}
 
 		private void Bootstrap()
@@ -163,6 +162,16 @@ namespace Filmst
 			PLL.IoC.MapperBootstrapper.Bootstrap(_cfg);
 
 			Mapper.Initialize(_cfg);
+		}
+
+		private void InitializeContainer(IApplicationBuilder app)
+		{
+			// Add application presentation components:
+			_container.RegisterMvcControllers(app);
+			_container.RegisterMvcViewComponents(app);
+
+			// Allow Simple Injector to resolve services from ASP.NET Core.
+			_container.AutoCrossWireAspNetComponents(app);
 		}
 	}
 }

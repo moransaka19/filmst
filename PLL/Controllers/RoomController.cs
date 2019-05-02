@@ -35,9 +35,14 @@ namespace PLL.Controllers
 			await _roomService.SignInAsync(Mapper.Map<ISignInRoomDTO>(model));
 		}
 
-		public string GetRoom()
+		public string GetRoomName()
 		{
-			return _roomService.GetRoom();
+			return _roomService.GetRoomName();
+		}
+
+		public void DisconnectFromRoom()
+		{
+			_roomService.DisconnectFromRoom();
 		}
 	}
 }
