@@ -47,22 +47,22 @@ namespace Filmst.Controllers
 
 		public async Task Message(string message)
 		{
-			await Clients.OthersInGroup(_room).SendAsync("Receive", Context.User.Identity.Name, message);
+			await Clients.Group(_room).SendAsync("Receive", Context.User.Identity.Name, message);
 		}
 
 		public async Task Play()
 		{
-			await Clients.OthersInGroup(_room).SendAsync("Play");
+			await Clients.Group(_room).SendAsync("Play");
 		}
 
 		public async Task Pause()
 		{
-			await Clients.OthersInGroup(_room).SendAsync("Pause");
+			await Clients.Group(_room).SendAsync("Pause");
 		}
 
 		public async Task Stop()
 		{
-			await Clients.OthersInGroup(_room).SendAsync("Stop");
+			await Clients.Group(_room).SendAsync("Stop");
 		}
 	}
 }

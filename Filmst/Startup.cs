@@ -158,9 +158,6 @@ namespace Filmst
 			Bootstrapper.Bootstrap(_container);
 			MapperBootstrapper.Bootstrap(_cfg);
 
-			PLL.IoC.Bootstrapper.Bootstrap(_container);
-			PLL.IoC.MapperBootstrapper.Bootstrap(_cfg);
-
 			Mapper.Initialize(_cfg);
 		}
 
