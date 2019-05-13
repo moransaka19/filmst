@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Android;
 using Android.App;
+using Android.Content;
 using Android.Media;
 using Android.OS;
 using Android.Runtime;
@@ -11,6 +12,8 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Views;
 using Android.Widget;
+using Plugin.FilePicker;
+using Plugin.FilePicker.Abstractions;
 using Plugin.MediaManager;
 using Plugin.MediaManager.Abstractions.Enums;
 using Plugin.MediaManager.ExoPlayer;
@@ -52,16 +55,16 @@ namespace filmstmob
             NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
             navigationView.SetNavigationItemSelectedListener(this);
 
-            var player = MediaPlayer.Create(this, Resource.Raw.testAudio);
-            Button button = FindViewById<Button>(Resource.Id.testBut);
-            button.Click += delegate
-            {
-                player.Start();
-            };
-            var videoView = FindViewById<VideoView>(Resource.Id.videoView1);
-            var uri = Android.Net.Uri.Parse("https://www.youtube.com/watch?v=wg-kEWsL6Xc");
-            videoView.SetVideoURI(uri);
-            videoView.Start();
+            //var player = MediaPlayer.Create(this, Resource.Raw.testAudio);
+            //Button button = FindViewById<Button>(Resource.Id.testBut);
+            //button.Click += delegate
+            //{
+            //    player.Start();
+            //};
+            //var videoView = FindViewById<VideoView>(Resource.Id.videoView1);
+            //var uri = Android.Net.Uri.Parse("https://www.youtube.com/watch?v=wg-kEWsL6Xc");
+            //videoView.SetVideoURI(uri);
+            //videoView.Start();
         }
 
         public override void OnBackPressed()
@@ -101,11 +104,14 @@ namespace filmstmob
                 .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
         }
 
-        public void testc()
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
-            
-            //Task.Run(async () => await CrossMediaManager.Current.Play("http://www.montemagno.com/sample.mp3", MediaFileType.Audio, ResourceAvailability.Remote));
-            //var t = CrossMediaManager.Current.Status;
+            switch (requestCode)
+            {
+                case 9999:
+                    var test =  data.Data.ToString();
+                    break;
+            }
         }
 
         public bool OnNavigationItemSelected(IMenuItem item)
@@ -120,7 +126,10 @@ namespace filmstmob
             }
             else if (id == Resource.Id.nav_gallery)
             {
-                testc();
+                Intent i = new Intent(Intent.ActionOpenDocumentTree);
+                
+                i.AddCategory(Intent.CategoryDefault);
+                StartActivityForResult(Intent.CreateChooser(i, "Choose directory"), 9999);
             }
             else if (id == Resource.Id.nav_slideshow)
             {
