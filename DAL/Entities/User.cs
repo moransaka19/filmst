@@ -19,13 +19,13 @@ namespace DAL.Entities
 	// UsernameAlreadyExists
 	public class User : IdentityUser<long>, IUser<long>
 	{
-		public IEnumerable<UserRoom> UserRooms { get; set; }
+		public ICollection<UserRoom> UserRooms { get; set; }
 
 		[NotMapped]
 		IEnumerable<IUserRoom> IUser<long>.UserRooms
 		{
 			get => UserRooms.Select(ur => ur as IUserRoom);
-			set => UserRooms = value.Select(ur => ur as UserRoom);
+			set => UserRooms = value.Select(ur => ur as UserRoom).ToList();
 		}
 
 		public User()

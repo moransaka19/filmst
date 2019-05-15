@@ -13,7 +13,7 @@ namespace PLL.Services
         public IMedia GetMedia(string fullPath)
         {
             IMedia result = null;
-            if (fullPath.IsNullOrEmpty() && System.IO.File.Exists(fullPath))
+            if (!fullPath.IsNullOrEmpty() && System.IO.File.Exists(fullPath))
             {
                 using (File file = File.Create(fullPath))
                 {

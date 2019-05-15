@@ -40,7 +40,7 @@ namespace Filmst.Controllers
 
 		public override async Task OnDisconnectedAsync(Exception exception)
 		{
-			_roomController.DisconnectFromRoom();
+			//_roomController.DisconnectFromRoom();
 
 			await Clients.Group(_room).SendAsync("UserDisconnected", Context.User.Identity.Name);
 		}

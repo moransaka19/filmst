@@ -33,6 +33,9 @@ namespace BLL.Services
 
 		public async Task AddAsync(IAddRoomDTO dto)
 		{
+			if (_roomRepository.GetAll(r => r.UniqName.ToUpper() == dto.UniqName.ToUpper()).Any())
+				throw new Exception();
+
 			var user = await _userManager.FindByNameAsync(_currentUserName);
 
 			var room = Mapper.Map<Room>(dto);
@@ -64,7 +67,7 @@ namespace BLL.Services
 
 			var user = await _userManager.FindByNameAsync(_currentUserName);
 
-			room.UserRooms = room.UserRooms.Concat(new UserRoom[] { new UserRoom(user.Id, room.Id) });
+			room.UserRooms.Add(new UserRoom(user.Id, room.Id));
 
 			_roomRepository.Update(room);
 

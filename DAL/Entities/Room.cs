@@ -21,7 +21,7 @@ namespace DAL.Entities
 
 		public long PlayListId { get; set; }
 		public PlayList PlayList { get; set; }
-		public IEnumerable<UserRoom> UserRooms { get; set; }
+		public ICollection<UserRoom> UserRooms { get; set; }
 		public IEnumerable<Message> Messages { get; set; }
 
 		[NotMapped]
@@ -35,7 +35,7 @@ namespace DAL.Entities
 		IEnumerable<IUserRoom> IRoom.UserRooms
 		{
 			get => UserRooms.Select(u => u as IUserRoom);
-			set => UserRooms = value.Select(u => u as UserRoom);
+			set => UserRooms = value.Select(u => u as UserRoom).ToList();
 		}
 
 		[NotMapped]
