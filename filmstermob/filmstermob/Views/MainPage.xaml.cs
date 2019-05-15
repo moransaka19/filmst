@@ -23,14 +23,15 @@ namespace filmstermob.Views
 
             MenuPages.Add((int)MenuItemType.Browse, (NavigationPage)Detail);
 
-            //var isAuth = CrossSettings.Current.GetValueOrDefault("auth", null) == null ? false : true;
-            //if (!isAuth)
-            //{
-            //    Task.Run(async () =>
-            //    {
-            //        await Navigation.PushModalAsync(new NavigationPage(new AuthPage()), true);
-            //    });
-            //}
+            this.BindingContext = new PageSliderModel();
+            var isAuth = CrossSettings.Current.GetValueOrDefault("auth", null) == null ? false : true;
+            if (!isAuth)
+            {
+                Task.Run(async () =>
+                {
+                    await Navigation.PushModalAsync(new NavigationPage(new AuthPage()), true);
+                });
+            }
         }
 
         public async Task NavigateFromMenu(int id)
@@ -51,6 +52,10 @@ namespace filmstermob.Views
                     case (int)MenuItemType.Settings:
                         MenuPages.Add(id, new NavigationPage(new SettingsPage()));
                         break;
+                    case (int)MenuItemType.LogOut:
+                        CrossSettings.Current.AddOrUpdateValue("auth", null);
+                        await Navigation.PushModalAsync(new NavigationPage(new AuthPage()), true);
+                        return;
                 }
             }
 

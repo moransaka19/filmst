@@ -7,6 +7,8 @@ using Xamarin.Forms;
 
 using filmstermob.Models;
 using filmstermob.Views;
+using System.Collections.Generic;
+using filmstermob.Services;
 
 namespace filmstermob.ViewModels
 {
@@ -22,6 +24,20 @@ namespace filmstermob.ViewModels
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
+            {
+                var newItem = item as Item;
+                Items.Add(newItem);
+                await DataStore.AddItemAsync(newItem);
+            });
+            
+            MessagingCenter.Subscribe<ChatPage, Item>(this, "AddItem", async (obj, item) =>
+            {
+                var newItem = item as Item;
+                Items.Add(newItem);
+                await DataStore.AddItemAsync(newItem);
+            });
+
+            MessagingCenter.Subscribe<MessageHubService, Item>(this, "AddItem", async (obj, item) =>
             {
                 var newItem = item as Item;
                 Items.Add(newItem);

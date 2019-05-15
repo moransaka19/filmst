@@ -9,7 +9,8 @@ namespace filmstermob.Models
         Browse,
         About,
         Chat,
-        Settings
+        Settings,
+        LogOut
     }
     public class HomeMenuItem
     {

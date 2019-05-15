@@ -6,7 +6,7 @@ namespace filmstermob
 {
     public static class Configs
     {
-        public static string ServerHost { get; set; } = "http://filmster.local";
+        public static string ServerHost { get; set; } = "http://sync4u.azurewebsites.net";
 
         public static class TestLogin
         {
@@ -14,9 +14,15 @@ namespace filmstermob
             public static string Password { get; set; } = "Password1";
         }
 
+        public static class HubEvents
+        {
+            public static string Room { get; set; } = "/room";
+        }
+
         public static class Requests
         {
             public static string Login { get; set; } = "/api/Auth/Login";
+            public static string RoomSignIn { get; set; } = "/api/Rooms/SignIn";
         }
     }
 }

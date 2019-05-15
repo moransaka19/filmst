@@ -24,13 +24,13 @@ namespace filmstermob.Providers
 
                 var res = await client.PostAsync(Configs.ServerHost + Configs.Requests.Login, new StringContent(loginData, Encoding.UTF8, "application/json"));
 
-                var s = await res.Content.ReadAsStringAsync();
+                var resoinseJson = await res.Content.ReadAsStringAsync();
 
-                var d = JsonConvert.DeserializeObject<AuthModel>(s);
+                var respModel = JsonConvert.DeserializeObject<AuthModel>(resoinseJson);
 
-                _accessToken = d.AccessToken;
+                _accessToken = respModel.AccessToken;
 
-                return d.AccessToken;
+                return respModel.AccessToken;
             }
 
         }

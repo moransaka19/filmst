@@ -6,7 +6,7 @@
              Title="Auth page">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Login" Clicked="Login_Clicked" />
+        <ToolbarItem Text="Submit" Clicked="Login_Clicked" />
         <ToolbarItem Text="Register" Clicked="RegisterClicked" />
     </ContentPage.ToolbarItems>
 
