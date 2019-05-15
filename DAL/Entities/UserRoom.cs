@@ -31,12 +31,6 @@ namespace DAL.Entities
 			set => Room = value as Room;
 		}
 
-		public UserRoom(long userId, long roomId)
-		{
-			UserId = userId;
-			RoomId = roomId;
-		}
-
 		public bool Equals(UserRoom other)
 		{
 			return UserId == other.UserId

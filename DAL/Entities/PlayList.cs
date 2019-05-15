@@ -28,6 +28,6 @@ namespace DAL.Entities
 			set => Room = value as Room;
 		}
 		[NotMapped]
-		IEnumerable<IMedia> IPlayList.Medias { get; set; }
+		ICollection<IMedia> IPlayList.Medias { get; set; }
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -18,7 +19,6 @@ namespace Filmst.Controllers
 
 		private string _room => Context.User.FindFirstValue("room");
 
-
 		public RoomHub(IRoomController roomController)
 		{
 			_roomController = roomController;
@@ -33,15 +33,13 @@ namespace Filmst.Controllers
 
 			await Groups.AddToGroupAsync(Context.ConnectionId, room);
 
-			Context.User.AddIdentity(new ClaimsIdentity(new Claim[] { new Claim("room", room), }));
+			Context.User.AddIdentity(new ClaimsIdentity(new[] { new Claim("room", room), }));
 
 			await Clients.Group(room).SendAsync("UserConnected", Context.User.Identity.Name);
 		}
 
 		public override async Task OnDisconnectedAsync(Exception exception)
 		{
-			//_roomController.DisconnectFromRoom();
-
 			await Clients.Group(_room).SendAsync("UserDisconnected", Context.User.Identity.Name);
 		}
 

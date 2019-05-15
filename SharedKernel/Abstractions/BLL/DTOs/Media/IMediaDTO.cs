@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Abstractions.DAL.Models
+namespace SharedKernel.Abstractions.BLL.DTOs.Media
 {
-	public interface IMedia
+	public interface IMediaDTO
 	{
 		string Name { get; set; }
 		TimeSpan Duration { get; set; }
@@ -15,13 +15,12 @@ namespace SharedKernel.Abstractions.DAL.Models
 		string Genre { get; set; }
 		string Singler { get; set; }
 		long PlayListId { get; set; }
-		IPlayList PlayList { get; set; }
 		double BitRate { get; set; }
 		double Rate { get; set; }
-        string Album { get; set; }
-        string Description { get; set; }
-        string MimeType { get; set; }
-        decimal StartPosition { get; set; }
-        decimal EndPosition { get; set; }
+		string Album { get; set; }
+		string Description { get; set; }
+		string MimeType { get; set; }
+		decimal StartPosition { get; set; }
+		decimal EndPosition { get; set; }
 	}
 }

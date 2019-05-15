@@ -24,9 +24,8 @@ namespace DAL.Entities
         public string Description { get; set; }
         public string MimeType { get; set; }
         public decimal StartPosition { get; set; }
-        public decimal EndPostiotion { get; set; }
+        public decimal EndPosition { get; set; }
 
-        [NotMapped]
 		IPlayList IMedia.PlayList
 		{
 			get => _playList;

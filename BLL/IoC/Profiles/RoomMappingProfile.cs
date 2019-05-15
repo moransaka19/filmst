@@ -17,17 +17,6 @@ namespace BLL.IoC.Profiles
 		{
 			CreateMap<IAddRoomDTO, Room>()
 				   .ForMember(r => r.PasswordHash, opt => opt.MapFrom(dto => HashPasswordHelper.GetPasswordHash(dto.Password)));
-
-			CreateMap<IUpdateRoomDTO, Room>()
-				.ForMember(r => r.PasswordHash, opt => opt.MapFrom(dto => HashPasswordHelper.GetPasswordHash(dto.Password)))
-				.ForMember(r => r.UserRooms, opt => opt.MapFrom(dto =>
-					dto.UserIds.Select(uid => new UserRoom(uid, dto.Id))))
-
-				.ForMember(r => r.UserRooms, opt => opt.PreCondition(dto => !dto.UserIds.IsNullOrEmpty()))
-				.ForMember(r => r.PasswordHash, opt => opt.Condition(dto => dto.Password != default))
-				.ForMember(r => r.UniqName, opt => opt.Condition(dto => dto.UniqName != default))
-				.ForMember(r => r.Name, opt => opt.Condition(dto => dto.Name != default))
-				.ForMember(r => r.PlayListId, opt => opt.Condition(dto => dto.PlayListId != default));
 		}
 	}
 }

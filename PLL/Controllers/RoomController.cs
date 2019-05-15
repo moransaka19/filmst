@@ -24,15 +24,15 @@ namespace PLL.Controllers
 		{
 			await _roomService.AddAsync(Mapper.Map<IAddRoomDTO>(model));
 		}
-
-		public async Task UpdateAsync(IUpdateRoomViewModel model)
-		{
-			await _roomService.UpdateAysnc(Mapper.Map<IUpdateRoomDTO>(model));
-		}
 		
 		public async Task SignInAsync(ISignInRoomViewModel model)
 		{
 			await _roomService.SignInAsync(Mapper.Map<ISignInRoomDTO>(model));
+		}
+
+		public async Task AddToRoomAsync(string roomName, string userName)
+		{
+			await _roomService.AddToRoomAsync(roomName, userName);
 		}
 
 		public string GetRoomName()

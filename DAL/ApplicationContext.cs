@@ -51,7 +51,7 @@ namespace DAL
 			#endregion
 
 			#region DataSeeding
-			
+
 			var user = new User()
 			{
 				Id = 1,
@@ -75,8 +75,8 @@ namespace DAL
 				.HasData(new IdentityRole<long> { Id = 1, Name = "Admin", NormalizedName = "Admin".ToUpper() });
 
 			modelBuilder.Entity<UserRoom>()
-				.HasData(new UserRoom(1, 1));
-			
+				.HasData(new UserRoom() { RoomId = 1, UserId = 1 });
+
 			modelBuilder.Entity<Message>()
 				.HasData(new Message()
 				{

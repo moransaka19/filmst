@@ -1,8 +1,5 @@
-﻿using System;
+﻿using SharedKernel.Abstractions.PLL.Media;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Abstractions.PLL.Rooms.Models
 {
@@ -11,5 +8,7 @@ namespace SharedKernel.Abstractions.PLL.Rooms.Models
 		string Name { get; set; }
 		string Password { get; set; }
 		string UniqName { get; set; }
+
+		IEnumerable<IMediaViewModel> Medias { get; set; }
 	}
 }

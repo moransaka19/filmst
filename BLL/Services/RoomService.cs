@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using BLL.Models;
 using DAL.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.SignalR;
 using SharedKernel.Abstractions.BLL.DTOs.Rooms;
 using SharedKernel.Abstractions.BLL.Services;
 using SharedKernel.Abstractions.DAL.Repositories;
 using SharedKernel.Exceptions;
 using SharedKernel.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace BLL.Services
 {
@@ -22,6 +23,8 @@ namespace BLL.Services
 		private readonly UserManager<User> _userManager;
 		private readonly IRepository<Room> _roomRepository;
 		private readonly string _currentUserName;
+
+		private static readonly Dictionary<string, LocalRoomModel> _rooms = new Dictionary<string, LocalRoomModel>();
 
 		public RoomService(IHttpContextAccessor httpContextAccessor, UserManager<User> userManager, IRepository<Room> roomRepository)
 		{
@@ -33,20 +36,25 @@ namespace BLL.Services
 
 		public async Task AddAsync(IAddRoomDTO dto)
 		{
-			if (_roomRepository.GetAll(r => r.UniqName.ToUpper() == dto.UniqName.ToUpper()).Any())
-				throw new Exception();
-
-			var user = await _userManager.FindByNameAsync(_currentUserName);
+			if (_roomRepository.GetAll(r => r.UniqName.ToUpper() == dto.UniqName.ToUpper()).Count() > 0)
+				throw new DuplicateNameException();
 
 			var room = Mapper.Map<Room>(dto);
 
+			var user = await _userManager.FindByNameAsync(_currentUserName);
+
 			room.HostId = user.Id;
+
+			room.UserRooms = new List<UserRoom>() { new UserRoom() { Room = room, UserId = user.Id } };
 
 			_roomRepository.Add(room);
 
-			room.UserRooms = new List<UserRoom>() { new UserRoom(room.HostId, room.Id) };
+			var localRoom = new LocalRoomModel();
 
-			_roomRepository.Update(room);
+			localRoom.UserIds.Add(user.Id);
+			localRoom.Medias = Mapper.Map<ICollection<Media>>(dto.Medias);
+
+			_rooms.Add(room.UniqName, localRoom);
 		}
 
 		public async Task SignInAsync(ISignInRoomDTO dto)
@@ -67,7 +75,7 @@ namespace BLL.Services
 
 			var user = await _userManager.FindByNameAsync(_currentUserName);
 
-			room.UserRooms.Add(new UserRoom(user.Id, room.Id));
+			room.UserRooms.Add(new UserRoom() { UserId = user.Id, RoomId = room.Id });
 
 			_roomRepository.Update(room);
 
@@ -87,19 +95,6 @@ namespace BLL.Services
 				.FirstOrDefault();
 		}
 
-		public async Task UpdateAysnc(IUpdateRoomDTO dto)
-		{
-			var user = await _userManager.FindByNameAsync(_currentUserName);
-			var room = _roomRepository.FindById(dto.Id);
-
-			if (user.Id != room.HostId)
-				throw new UserIsNotHostException();
-
-			room = Mapper.Map(dto, room);
-
-			_roomRepository.Update(room);
-		}
-
 		public void DisconnectFromRoom()
 		{
 			var room = _roomRepository
@@ -109,6 +104,11 @@ namespace BLL.Services
 			room.UserRooms = room.UserRooms.Where(ur => ur.User.NormalizedUserName != _currentUserName).ToList();
 
 			_roomRepository.Update(room);
+		}
+
+		public async Task AddToRoomAsync(string roomName, string userName)
+		{
+
 		}
 	}
 }

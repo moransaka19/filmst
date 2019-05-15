@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -46,6 +47,14 @@ namespace Filmst.Controllers
 			return Ok();
 		}
 
+		[HttpGet("SignOut")]
+		public IActionResult Get()
+		{
+			_roomController.DisconnectFromRoom();
+
+			return Ok();
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> Post([FromBody] AddRoomViewModel model)
 		{
@@ -53,31 +62,16 @@ namespace Filmst.Controllers
 			{
 				await _roomController.AddAsync(model);
 			}
-			catch
+			catch (DuplicateNameException)
 			{
-				return StatusCode(500);
-			}
-
-			return NoContent();
-		}
-
-		[HttpPut]
-		public async Task<IActionResult> Put([FromBody] UpdateRoomViewModel model)
-		{
-			try
-			{
-				await _roomController.UpdateAsync(model);
-			}
-			catch (UserIsNotHostException)
-			{
-				return Forbid();
+				return BadRequest(new { Message = "Room already exists" });
 			}
 			catch
 			{
 				return StatusCode(500);
 			}
 
-			return NoContent();
+			return Ok();
 		}
 	}
 }

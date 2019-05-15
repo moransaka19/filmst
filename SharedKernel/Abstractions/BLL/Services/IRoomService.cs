@@ -10,9 +10,9 @@ namespace SharedKernel.Abstractions.BLL.Services
 	public interface IRoomService
 	{
 		Task AddAsync(IAddRoomDTO dto);
-		Task UpdateAysnc(IUpdateRoomDTO dto);
 		Task SignInAsync(ISignInRoomDTO dto);
 		string GetRoomName();
 		void DisconnectFromRoom();
+		Task AddToRoomAsync(string roomName, string userName);
 	}
 }
