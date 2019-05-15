@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PLL.VIewModels.Auth;
 using SharedKernel.Abstractions.PLL.Auth;
@@ -62,6 +63,13 @@ namespace Filmst.Controllers
 			}
 
 			return Ok(res);
+		}
+
+		[Authorize]
+		[HttpGet("TryLogin")]
+		public IActionResult TryLogin()
+		{
+			return Ok();
 		}
 	}
 }
