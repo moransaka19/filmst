@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -53,7 +54,7 @@ namespace Filmst
 
 			services.AddHttpContextAccessor();
 
-			services.AddDbContext<ApplicationContext>(options => 
+			services.AddDbContext<ApplicationContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 			services.AddIdentity<User, IdentityRole<long>>(opts =>
@@ -89,6 +90,21 @@ namespace Filmst
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+
+				var security = new Dictionary<string, IEnumerable<string>>
+				{
+					{"Bearer", new string[] { }},
+				};
+
+				c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+				{
+					Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+					Name = "Authorization",
+					In = "header",
+					Type = "apiKey"
+				});
+
+				c.AddSecurityRequirement(security);
 			});
 		}
 
