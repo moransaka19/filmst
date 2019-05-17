@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
+using PLL.ViewModels;
+using SharedKernel.Abstractions.BLL.DTOs.Media;
 using SharedKernel.Abstractions.PLL.Rooms;
 using SharedKernel.Exceptions;
 using SharedKernel.Extensions;
@@ -17,7 +20,7 @@ namespace Filmst.Controllers
 	{
 		private readonly IRoomController _roomController;
 
-		private string _room => Context.User.FindFirstValue("room");
+		private string _roomName => Context.User.FindFirstValue("room");
 
 		public RoomHub(IRoomController roomController)
 		{
@@ -31,6 +34,8 @@ namespace Filmst.Controllers
 			if (room == null)
 				throw new UserIsNotInTheRoomException();
 
+			await _roomController.AddToRoomAsync(room, Context.ConnectionId);
+
 			await Groups.AddToGroupAsync(Context.ConnectionId, room);
 
 			Context.User.AddIdentity(new ClaimsIdentity(new[] { new Claim("room", room), }));
@@ -40,27 +45,38 @@ namespace Filmst.Controllers
 
 		public override async Task OnDisconnectedAsync(Exception exception)
 		{
-			await Clients.Group(_room).SendAsync("UserDisconnected", Context.User.Identity.Name);
+			await Clients.Group(_roomName).SendAsync("UserDisconnected", Context.User.Identity.Name);
+
+			_roomController.DisconnectFromRoom();
+		}
+
+		public async Task CheckMedia(IEnumerable<MediaViewModel> medias)
+		{
+			var requiredMedia = _roomController.CheckMedia(_roomName, Mapper.Map<IEnumerable<IMediaDTO>>(medias));
+
+			var hostConnectionId = _roomController.GetHostConnectionId();
+
+			await Clients.Client(hostConnectionId).SendAsync("UploadMedias", requiredMedia);
 		}
 
 		public async Task Message(string message)
 		{
-			await Clients.Group(_room).SendAsync("Receive", Context.User.Identity.Name, message);
+			await Clients.Group(_roomName).SendAsync("Receive", Context.User.Identity.Name, message);
 		}
 
 		public async Task Play()
 		{
-			await Clients.Group(_room).SendAsync("Play");
+			await Clients.Group(_roomName).SendAsync("Play");
 		}
 
 		public async Task Pause()
 		{
-			await Clients.Group(_room).SendAsync("Pause");
+			await Clients.Group(_roomName).SendAsync("Pause");
 		}
 
 		public async Task Stop()
 		{
-			await Clients.Group(_room).SendAsync("Stop");
+			await Clients.Group(_roomName).SendAsync("Stop");
 		}
 	}
 }
