@@ -3,6 +3,7 @@ using Plugin.FilePicker;
 using Plugin.FilePicker.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ using Xamarin.Forms.Xaml;
 
 namespace filmstermob.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    [DesignTimeVisible(true)]
     public partial class SettingsPage : ContentPage
     {
         public SettingsPage()

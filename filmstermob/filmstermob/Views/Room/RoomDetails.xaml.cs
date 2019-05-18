@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,12 +8,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace filmstermob.Views
+namespace filmstermob.Views.Room
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class ConnectToRoomPage : ContentPage
+    [DesignTimeVisible(true)]
+    public partial class RoomDetails : ContentPage
     {
-        public ConnectToRoomPage()
+        public RoomDetails()
         {
             InitializeComponent();
         }

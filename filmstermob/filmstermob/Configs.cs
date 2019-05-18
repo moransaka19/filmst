@@ -23,6 +23,8 @@ namespace filmstermob
         {
             public static string Login { get; set; } = "/api/Auth/Login";
             public static string RoomSignIn { get; set; } = "/api/Rooms/SignIn";
+            public static string RoomCreate { get; set; } = "/api/Rooms";
+            public static string RoomSignOut { get; set; } = "/api/Rooms/SignOut";
         }
     }
 }

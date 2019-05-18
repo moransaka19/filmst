@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="filmstermob.Views.ConnectToRoomPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Connect" Clicked="LoginRoom_Clicked" />
+        <ToolbarItem Text="Create Room" Clicked="CreateRoom_Clicked" />
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="Uniq name of room" FontSize="Medium" />
+            <Entry x:Name="login" Text="" Placeholder="Uniqname" FontSize="Small" />
+            <Label Text="Password" FontSize="Medium" />
+            <Entry x:Name="password" IsPassword="True" Text="" FontSize="Small" Margin="0" />
+            <Label x:Name="error" IsVisible="False" TextColor="Red" FontSize="Small" Margin="0"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

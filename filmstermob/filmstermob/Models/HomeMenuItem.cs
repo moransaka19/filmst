@@ -8,7 +8,6 @@ namespace filmstermob.Models
     {
         Browse,
         About,
-        Chat,
         Settings,
         LogOut
     }

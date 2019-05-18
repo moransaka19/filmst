@@ -32,7 +32,7 @@ namespace filmstermob.Providers
 
                 return respModel.AccessToken;
             }
-
         }
+
     }
 }

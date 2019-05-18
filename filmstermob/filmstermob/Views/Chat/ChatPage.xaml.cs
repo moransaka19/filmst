@@ -3,6 +3,7 @@ using filmstermob.Services;
 using filmstermob.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,17 +13,17 @@ using Xamarin.Forms.Xaml;
 
 namespace filmstermob.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
+    [DesignTimeVisible(true)]
     public partial class ChatPage : ContentPage
     {
         ItemsViewModel viewModel;
         MessageHubService messageHubService;
 
-        public ChatPage()
+        public ChatPage(string roomUniqName, string roomPass)
         {
             InitializeComponent();
             BindingContext = viewModel = new ItemsViewModel();
-            messageHubService = new MessageHubService("str", "str");
+            messageHubService = new MessageHubService(roomUniqName, roomPass);
 
             Task.Run(async () =>
             {

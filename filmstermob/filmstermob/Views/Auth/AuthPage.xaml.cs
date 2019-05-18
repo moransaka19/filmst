@@ -2,6 +2,7 @@
 using Plugin.Settings;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,31 +12,24 @@ using Xamarin.Forms.Xaml;
 
 namespace filmstermob.Views
 {
-    [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RegisterPage : ContentPage
+    [DesignTimeVisible(true)]
+    public partial class AuthPage : ContentPage
     {
-        public RegisterPage()
+        public AuthPage()
         {
             InitializeComponent();
 
             BindingContext = this;
         }
 
-        async void RegisterClicked(object sender, EventArgs e)
+        async void Login_Clicked(object sender, EventArgs e)
         {
             try
             {
-                if (password.Text != confirmPassword.Text)
-                    throw new FormatException();
-
                 var token = await AccessTokenProvider.GetToken(login.Text, password.Text);
                 CrossSettings.Current.AddOrUpdateValue("auth", token);
+                CrossSettings.Current.AddOrUpdateValue("userCreds", $"{login.Text} {password.Text}");
                 await Navigation.PopModalAsync();
-            }
-            catch (FormatException errRegister)
-            {
-                error.Text = "Passwords is not same!";
-                error.IsVisible = true;
             }
             catch (Exception ex)
             {
@@ -44,9 +38,9 @@ namespace filmstermob.Views
             }
         }
 
-        async void CancelRegisterClicked(object sender, EventArgs e)
+        async void RegisterClicked(object sender, EventArgs e)
         {
-            await Navigation.PopModalAsync();
+            await Navigation.PushModalAsync(new NavigationPage(new RegisterPage()), true);
         }
     }
 }
