@@ -9,6 +9,7 @@ namespace BLL.Models
 {
 	class LocalRoomModel
 	{
+		public string Name { get; set; }
 		public ICollection<LocalUserModel> Users { get; set; }
 		public ICollection<Media> Medias { get; set; }
 

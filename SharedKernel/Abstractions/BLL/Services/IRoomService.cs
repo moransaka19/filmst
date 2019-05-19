@@ -20,5 +20,6 @@ namespace SharedKernel.Abstractions.BLL.Services
 		IEnumerable<string> GetUserConnectionIdsInCurrentRoom();
 		void MediaDownloaded(string roomName);
 		bool IsAllUsersReadyToStart(string roomName);
+		IRoomDTO GetRoomInfo(string roomName);
 	}
 }

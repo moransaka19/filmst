@@ -44,7 +44,7 @@ namespace Filmst.Controllers
 
 			await Groups.AddToGroupAsync(Context.ConnectionId, room);
 
-			await Clients.Group(room).SendAsync("UserConnected", $"{Context.User.Identity.Name} {Context.ConnectionId}");
+			await Clients.Group(room).SendAsync("UserConnected", Context.User.Identity.Name);
 		}
 
 		public override async Task OnDisconnectedAsync(Exception exception)

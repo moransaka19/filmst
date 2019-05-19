@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using PLL.ViewModels.Rooms;
 using SharedKernel.Abstractions.PLL.Rooms;
+using SharedKernel.Abstractions.PLL.Rooms.Models;
 using SharedKernel.Exceptions;
 
 namespace Filmst.Controllers
@@ -22,6 +24,23 @@ namespace Filmst.Controllers
 		public RoomsController(IRoomController roomController)
 		{
 			_roomController = roomController;
+		}
+
+		[HttpGet("{roomName}")]
+		public ActionResult<IRoomViewModel> Get(string roomName)
+		{
+			IRoomViewModel roomInfo;
+
+			try
+			{
+				roomInfo = _roomController.GetRoomInfo(roomName);
+			}
+			catch (KeyNotFoundException)
+			{
+				return BadRequest("Room not found");
+			}
+
+			return Ok(roomInfo);
 		}
 
 		[HttpPost("SignIn")]

@@ -52,6 +52,7 @@ namespace BLL.Services
 
 			var localRoom = new LocalRoomModel();
 
+			localRoom.Name = dto.Name;
 			localRoom.Medias = Mapper.Map<ICollection<Media>>(dto.Medias);
 
 			_rooms.Add(room.UniqName, localRoom);
@@ -165,6 +166,18 @@ namespace BLL.Services
 		public bool IsAllUsersReadyToStart(string roomName)
 		{
 			return !_rooms[roomName].Users.Any(u => u.MediasInDownloadCount > 0);
+		}
+
+		public IRoomDTO GetRoomInfo(string roomName)
+		{
+			if (!_rooms.ContainsKey(roomName))
+				throw new KeyNotFoundException();
+
+			var room = Mapper.Map<IRoomDTO>(_rooms[roomName]);
+
+			room.Name = roomName;
+
+			return room;
 		}
 
 		public IEnumerable<string> GetUserConnectionIdsInCurrentRoom()

@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Abstractions.PLL.User
+namespace SharedKernel.Abstractions.BLL.DTOs.User
 {
 	public interface IUserDTO
 	{
 		string UserName { get; set; }
-
 	}
 }

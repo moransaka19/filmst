@@ -72,5 +72,10 @@ namespace PLL.Controllers
 		{
 			return _roomService.IsAllUsersReadyToStart(roomName);
 		}
+
+		public IRoomViewModel GetRoomInfo(string roomName)
+		{
+			return Mapper.Map<IRoomViewModel>(_roomService.GetRoomInfo(roomName));
+		}
 	}
 }

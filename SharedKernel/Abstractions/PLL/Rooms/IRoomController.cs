@@ -20,5 +20,6 @@ namespace SharedKernel.Abstractions.PLL.Rooms
 		IEnumerable<string> GetUserConnectionIdsInCurrentRoom();
 		void MediaDownloaded(string roomName);
 		bool IsAllUsersReadyToStart(string roomName);
+		IRoomViewModel GetRoomInfo(string roomName);
 	}
 }
