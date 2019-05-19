@@ -14,6 +14,7 @@ using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using SharedKernel.Abstractions.DAL.Models;
 
 namespace BLL.Services
 {
@@ -51,7 +52,6 @@ namespace BLL.Services
 
 			var localRoom = new LocalRoomModel();
 
-			localRoom.UserIds.Add(user.Id);
 			localRoom.Medias = Mapper.Map<ICollection<Media>>(dto.Medias);
 
 			_rooms.Add(room.UniqName, localRoom);
@@ -95,20 +95,57 @@ namespace BLL.Services
 				.FirstOrDefault();
 		}
 
+		public string GetHostConnectionId()
+		{
+			var roomName = GetRoomName();
+
+			return _rooms[roomName].Users.First(u => u.IsHost).ConnectionId;
+		}
+
 		public void DisconnectFromRoom()
 		{
 			var room = _roomRepository
 				.GetAll(r => r.UserRooms.Any(ur => ur.User.NormalizedUserName == _currentUserName))
 				.Single();
 
+			if (_userManager.FindByNameAsync(_currentUserName).Id == room.HostId)
+			{
+				_roomRepository.Delete(room);
+				_rooms.Remove(room.UniqName);
+				return;
+			}
+
 			room.UserRooms = room.UserRooms.Where(ur => ur.User.NormalizedUserName != _currentUserName).ToList();
 
 			_roomRepository.Update(room);
+
+			_rooms[room.UniqName].Users = _rooms[room.UniqName].Users.Where(u => u.UserName != _currentUserName).ToList();
 		}
 
-		public async Task AddToRoomAsync(string roomName, string userName)
+		public async Task AddToRoomAsync(string roomName, string connectionId)
 		{
+			var user = await _userManager.FindByNameAsync(_currentUserName);
 
+			var roomHostId = _roomRepository
+							 .GetAll(r => r.UniqName.ToUpper() == roomName.ToUpper())
+							 .Select(r => r.HostId)
+							 .First();
+
+			_rooms[roomName].Users.Add(new LocalUserModel()
+			{
+				Id = user.Id,
+				UserName = user.UserName,
+				ConnectionId = connectionId,
+				IsHost = user.Id == roomHostId
+			});
+		}
+
+		public IEnumerable<IMedia> CheckMedia(string roomName, IEnumerable<IMedia> medias)
+		{
+			var mediaModels = Mapper.Map<IEnumerable<Media>>(medias);
+
+			var a = _rooms[roomName].Medias.Except(mediaModels).ToList();
+			return a;
 		}
 	}
 }

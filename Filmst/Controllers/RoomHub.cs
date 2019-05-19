@@ -32,7 +32,10 @@ namespace Filmst.Controllers
 			var room = _roomController.GetRoomName();
 
 			if (room == null)
+			{
+				_roomController.DisconnectFromRoom();
 				throw new UserIsNotInTheRoomException();
+			}
 
 			await _roomController.AddToRoomAsync(room, Context.ConnectionId);
 
@@ -52,11 +55,14 @@ namespace Filmst.Controllers
 
 		public async Task CheckMedia(IEnumerable<MediaViewModel> medias)
 		{
-			var requiredMedia = _roomController.CheckMedia(_roomName, Mapper.Map<IEnumerable<IMediaDTO>>(medias));
+			var requiredMedias = _roomController.CheckMedia(_roomName, Mapper.Map<IEnumerable<IMediaDTO>>(medias));
 
 			var hostConnectionId = _roomController.GetHostConnectionId();
 
-			await Clients.Client(hostConnectionId).SendAsync("UploadMedias", requiredMedia);
+			if (!requiredMedias.IsNullOrEmpty())
+				await Clients.Client(hostConnectionId)
+							 .SendAsync("UploadMedia", 
+										Mapper.Map<IEnumerable<MediaViewModel>>(requiredMedias));
 		}
 
 		public async Task Message(string message)

@@ -9,12 +9,12 @@ namespace BLL.Models
 {
 	class LocalRoomModel
 	{
-		public ICollection<long> UserIds { get; set; }
+		public ICollection<LocalUserModel> Users { get; set; }
 		public ICollection<Media> Medias { get; set; }
 
 		public LocalRoomModel()
 		{
-			UserIds = new List<long>();
+			Users = new List<LocalUserModel>();
 			Medias = new List<Media>();
 		}
 	}

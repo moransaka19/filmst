@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using SharedKernel.Abstractions.BLL.DTOs.Media;
 using SharedKernel.Abstractions.BLL.DTOs.Rooms;
 using SharedKernel.Abstractions.BLL.Services;
+using SharedKernel.Abstractions.DAL.Models;
 using SharedKernel.Abstractions.PLL.Rooms;
 using SharedKernel.Abstractions.PLL.Rooms.Models;
 
@@ -30,9 +32,9 @@ namespace PLL.Controllers
 			await _roomService.SignInAsync(Mapper.Map<ISignInRoomDTO>(model));
 		}
 
-		public async Task AddToRoomAsync(string roomName, string userName)
+		public async Task AddToRoomAsync(string roomName, string connectionId)
 		{
-			await _roomService.AddToRoomAsync(roomName, userName);
+			await _roomService.AddToRoomAsync(roomName, connectionId);
 		}
 
 		public string GetRoomName()
@@ -40,9 +42,20 @@ namespace PLL.Controllers
 			return _roomService.GetRoomName();
 		}
 
+		public string GetHostConnectionId()
+		{
+			return _roomService.GetHostConnectionId();
+		}
+
 		public void DisconnectFromRoom()
 		{
 			_roomService.DisconnectFromRoom();
+		}
+
+		public IEnumerable<IMediaDTO> CheckMedia(string roomName, IEnumerable<IMediaDTO> mediaDTOs)
+		{
+			var medias = Mapper.Map<IEnumerable<IMedia>>(mediaDTOs);
+			return Mapper.Map<IEnumerable<IMediaDTO>>(_roomService.CheckMedia(roomName, medias));
 		}
 	}
 }
