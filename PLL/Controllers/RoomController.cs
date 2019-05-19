@@ -62,5 +62,15 @@ namespace PLL.Controllers
 		{
 			return _roomService.GetUserConnectionIdsInCurrentRoom();
 		}
+
+		public void MediaDownloaded(string roomName)
+		{
+			_roomService.MediaDownloaded(roomName);
+		}
+
+		public bool IsAllUsersReadyToStart(string roomName)
+		{
+			return _roomService.IsAllUsersReadyToStart(roomName);
+		}
 	}
 }

@@ -1,7 +1,7 @@
-﻿using SharedKernel.Abstractions.PLL.Media;
-using System;
+﻿using System;
+using SharedKernel.Abstractions.PLL.Media;
 
-namespace PLL.ViewModels
+namespace PLL.ViewModels.Media
 {
 	public class MediaViewModel : IMediaViewModel
 	{

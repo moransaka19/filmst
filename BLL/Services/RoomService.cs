@@ -64,7 +64,7 @@ namespace BLL.Services
 			if (room == null)
 				throw new RoomNotFoundException();
 
-			if (room.UserRooms.Any(ur => ur.User.NormalizedUserName == _currentUserName.ToUpper()))
+			if (room.UserRooms.Any(ur => ur.User.NormalizedUserName == _currentUserName))
 			{
 				AddRoomToUserIdentity(dto.UniqName);
 				return;
@@ -90,7 +90,7 @@ namespace BLL.Services
 		public string GetRoomName()
 		{
 			return _roomRepository
-				.GetAll(r => r.UserRooms.Any(ur => ur.User.NormalizedUserName == _currentUserName.ToUpper()))
+				.GetAll(r => r.UserRooms.Any(ur => ur.User.NormalizedUserName == _currentUserName))
 				.Select(r => r.UniqName)
 				.FirstOrDefault();
 		}
@@ -121,7 +121,9 @@ namespace BLL.Services
 
 			_roomRepository.Update(room);
 
-			_rooms[room.UniqName].Users = _rooms[room.UniqName].Users.Where(u => u.UserName != _currentUserName).ToList();
+			var localUser = _rooms[room.UniqName].Users.Single(u => u.Id == user.Id);
+
+			_rooms[room.UniqName].Users.Remove(localUser);
 		}
 
 		public async Task AddToRoomAsync(string roomName, string connectionId)
@@ -146,8 +148,23 @@ namespace BLL.Services
 		{
 			var mediaModels = Mapper.Map<IEnumerable<Media>>(medias);
 
-			var a = _rooms[roomName].Medias.Except(mediaModels).ToList();
-			return a;
+			var missedMedias = _rooms[roomName].Medias.Except(mediaModels).ToList();
+
+			_rooms[roomName].Users
+							.Single(u => u.UserName.ToUpper() == _currentUserName)
+							.MediasInDownloadCount = missedMedias.Count();
+
+			return missedMedias;
+		}
+
+		public void MediaDownloaded(string roomName)
+		{
+			_rooms[roomName].Users.Single(u => u.UserName.ToUpper() == _currentUserName).MediasInDownloadCount--;
+		}
+
+		public bool IsAllUsersReadyToStart(string roomName)
+		{
+			return !_rooms[roomName].Users.Any(u => u.MediasInDownloadCount > 0);
 		}
 
 		public IEnumerable<string> GetUserConnectionIdsInCurrentRoom()

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PLL.ViewModels.Media;
 using SharedKernel.Abstractions.PLL.Media;
 using SharedKernel.Abstractions.PLL.Rooms.Models;
 

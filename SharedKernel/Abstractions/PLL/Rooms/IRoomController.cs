@@ -18,5 +18,7 @@ namespace SharedKernel.Abstractions.PLL.Rooms
 		Task DisconnectFromRoomAsync();
 		IEnumerable<IMediaDTO> CheckMedia(string roomName, IEnumerable<IMediaDTO> medias);
 		IEnumerable<string> GetUserConnectionIdsInCurrentRoom();
+		void MediaDownloaded(string roomName);
+		bool IsAllUsersReadyToStart(string roomName);
 	}
 }

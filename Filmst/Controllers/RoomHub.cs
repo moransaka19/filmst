@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using PLL.ViewModels;
+using PLL.ViewModels.Media;
 using SharedKernel.Abstractions.BLL.DTOs.Media;
 using SharedKernel.Abstractions.PLL.Rooms;
 using SharedKernel.Exceptions;
@@ -37,13 +38,13 @@ namespace Filmst.Controllers
 				throw new UserIsNotInTheRoomException();
 			}
 
+			Context.User.AddIdentity(new ClaimsIdentity(new[] { new Claim("room", room), }));
+
 			await _roomController.AddToRoomAsync(room, Context.ConnectionId);
 
 			await Groups.AddToGroupAsync(Context.ConnectionId, room);
 
-			Context.User.AddIdentity(new ClaimsIdentity(new[] { new Claim("room", room), }));
-
-			await Clients.Group(room).SendAsync("UserConnected", Context.User.Identity.Name);
+			await Clients.Group(room).SendAsync("UserConnected", $"{Context.User.Identity.Name} {Context.ConnectionId}");
 		}
 
 		public override async Task OnDisconnectedAsync(Exception exception)
@@ -58,6 +59,10 @@ namespace Filmst.Controllers
 			{
 				await Groups.RemoveFromGroupAsync(Context.ConnectionId, _roomController.GetRoomName());
 				await _roomController.DisconnectFromRoomAsync();
+
+				if (_roomController.IsAllUsersReadyToStart(_roomName))
+					await Clients.Group(_roomName).SendAsync("ReadyToPlay");
+
 				return;
 			}
 
@@ -82,8 +87,23 @@ namespace Filmst.Controllers
 
 			if (!requiredMedias.IsNullOrEmpty())
 				await Clients.Client(hostConnectionId)
-							 .SendAsync("UploadMedia", 
+							 .SendAsync("RequireMedia",
 										Mapper.Map<IEnumerable<MediaViewModel>>(requiredMedias), Context.ConnectionId);
+		}
+
+		public async Task UploadMedia(string connectionId, string fileName, List<string> сhunks)
+		{
+			await Clients.Client(connectionId).SendAsync("DownloadMedia", fileName, сhunks);
+		}
+
+		public async Task MediaDownloaded()
+		{
+			_roomController.MediaDownloaded(_roomName);
+
+			if (_roomController.IsAllUsersReadyToStart(_roomName))
+			{
+				await Clients.Group(_roomName).SendAsync("ReadyToPlay");
+			}
 		}
 
 		public async Task Message(string message)
