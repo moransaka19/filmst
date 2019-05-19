@@ -52,6 +52,8 @@ namespace Filmst.Controllers
 			if (_roomController.GetRoomName() == null)
 				return;
 
+			await Clients.Group(_roomName).SendAsync("UserDisconnected", Context.User.Identity.Name);
+
 			if (_roomController.GetHostConnectionId() != Context.ConnectionId)
 			{
 				await Groups.RemoveFromGroupAsync(Context.ConnectionId, _roomController.GetRoomName());
@@ -81,7 +83,7 @@ namespace Filmst.Controllers
 			if (!requiredMedias.IsNullOrEmpty())
 				await Clients.Client(hostConnectionId)
 							 .SendAsync("UploadMedia", 
-										Mapper.Map<IEnumerable<MediaViewModel>>(requiredMedias));
+										Mapper.Map<IEnumerable<MediaViewModel>>(requiredMedias), Context.ConnectionId);
 		}
 
 		public async Task Message(string message)
