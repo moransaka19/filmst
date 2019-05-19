@@ -48,9 +48,9 @@ namespace Filmst.Controllers
 		}
 
 		[HttpGet("SignOut")]
-		public IActionResult Get()
+		public async Task<IActionResult> Get()
 		{
-			_roomController.DisconnectFromRoom();
+			await _roomController.DisconnectFromRoomAsync();
 
 			return Ok();
 		}

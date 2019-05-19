@@ -47,15 +47,20 @@ namespace PLL.Controllers
 			return _roomService.GetHostConnectionId();
 		}
 
-		public void DisconnectFromRoom()
+		public async Task DisconnectFromRoomAsync()
 		{
-			_roomService.DisconnectFromRoom();
+			await _roomService.DisconnectFromRoomAsync();
 		}
 
 		public IEnumerable<IMediaDTO> CheckMedia(string roomName, IEnumerable<IMediaDTO> mediaDTOs)
 		{
 			var medias = Mapper.Map<IEnumerable<IMedia>>(mediaDTOs);
 			return Mapper.Map<IEnumerable<IMediaDTO>>(_roomService.CheckMedia(roomName, medias));
+		}
+
+		public IEnumerable<string> GetUserConnectionIdsInCurrentRoom()
+		{
+			return _roomService.GetUserConnectionIdsInCurrentRoom();
 		}
 	}
 }

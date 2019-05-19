@@ -102,13 +102,15 @@ namespace BLL.Services
 			return _rooms[roomName].Users.First(u => u.IsHost).ConnectionId;
 		}
 
-		public void DisconnectFromRoom()
+		public async Task DisconnectFromRoomAsync()
 		{
+			var user = await _userManager.FindByNameAsync(_currentUserName);
+
 			var room = _roomRepository
-				.GetAll(r => r.UserRooms.Any(ur => ur.User.NormalizedUserName == _currentUserName))
+				.GetAll(r => r.UserRooms.Any(ur => ur.User.NormalizedUserName == user.NormalizedUserName))
 				.Single();
 
-			if (_userManager.FindByNameAsync(_currentUserName).Id == room.HostId)
+			if (user.Id == room.HostId)
 			{
 				_roomRepository.Delete(room);
 				_rooms.Remove(room.UniqName);
@@ -146,6 +148,11 @@ namespace BLL.Services
 
 			var a = _rooms[roomName].Medias.Except(mediaModels).ToList();
 			return a;
+		}
+
+		public IEnumerable<string> GetUserConnectionIdsInCurrentRoom()
+		{
+			return _rooms[GetRoomName()].Users.Select(u => u.ConnectionId);
 		}
 	}
 }

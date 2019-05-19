@@ -14,8 +14,9 @@ namespace SharedKernel.Abstractions.BLL.Services
 		Task SignInAsync(ISignInRoomDTO dto);
 		string GetRoomName();
 		string GetHostConnectionId();
-		void DisconnectFromRoom();
+		Task DisconnectFromRoomAsync();
 		Task AddToRoomAsync(string roomName, string connectionId);
 		IEnumerable<IMedia> CheckMedia(string roomName, IEnumerable<IMedia> medias);
+		IEnumerable<string> GetUserConnectionIdsInCurrentRoom();
 	}
 }

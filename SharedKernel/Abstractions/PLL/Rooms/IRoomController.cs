@@ -15,7 +15,8 @@ namespace SharedKernel.Abstractions.PLL.Rooms
 		Task AddToRoomAsync(string roomName, string connectionId);
 		string GetRoomName();
 		string GetHostConnectionId();
-		void DisconnectFromRoom();
+		Task DisconnectFromRoomAsync();
 		IEnumerable<IMediaDTO> CheckMedia(string roomName, IEnumerable<IMediaDTO> medias);
+		IEnumerable<string> GetUserConnectionIdsInCurrentRoom();
 	}
 }

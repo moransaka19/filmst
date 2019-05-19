@@ -33,7 +33,7 @@ namespace Filmst.Controllers
 
 			if (room == null)
 			{
-				_roomController.DisconnectFromRoom();
+				await _roomController.DisconnectFromRoomAsync();
 				throw new UserIsNotInTheRoomException();
 			}
 
@@ -48,9 +48,28 @@ namespace Filmst.Controllers
 
 		public override async Task OnDisconnectedAsync(Exception exception)
 		{
-			await Clients.Group(_roomName).SendAsync("UserDisconnected", Context.User.Identity.Name);
+			// True if the room has already closed
+			if (_roomController.GetRoomName() == null)
+				return;
 
-			_roomController.DisconnectFromRoom();
+			if (_roomController.GetHostConnectionId() != Context.ConnectionId)
+			{
+				await Groups.RemoveFromGroupAsync(Context.ConnectionId, _roomController.GetRoomName());
+				await _roomController.DisconnectFromRoomAsync();
+				return;
+			}
+
+			await Clients.Group(_roomName).SendAsync("RoomClosed");
+
+			var userIds = _roomController.GetUserConnectionIdsInCurrentRoom();
+
+			userIds.ToList().ForEach(id =>
+			{
+				Groups.RemoveFromGroupAsync(id, _roomName);
+			});
+
+			// When the admin disconnects from the room, the room will be closed
+			await _roomController.DisconnectFromRoomAsync();
 		}
 
 		public async Task CheckMedia(IEnumerable<MediaViewModel> medias)
