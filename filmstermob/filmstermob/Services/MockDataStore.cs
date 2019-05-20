@@ -36,6 +36,13 @@ namespace filmstermob.Services
             return await Task.FromResult(true);
         }
 
+        public async Task<bool> RefreshItems(List<Item> item)
+        {
+            items = item;
+
+            return await Task.FromResult(true);
+        }
+
         public async Task<bool> UpdateItemAsync(Item item)
         {
             var oldItem = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
@@ -49,6 +56,13 @@ namespace filmstermob.Services
         {
             var oldItem = items.Where((Item arg) => arg.Id == id).FirstOrDefault();
             items.Remove(oldItem);
+
+            return await Task.FromResult(true);
+        }
+
+        public async Task<bool> DeleteItemAsync(Item item)
+        {
+            items.Remove(item);
 
             return await Task.FromResult(true);
         }

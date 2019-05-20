@@ -9,6 +9,8 @@ using filmstermob.Models;
 using filmstermob.Views;
 using System.Collections.Generic;
 using filmstermob.Services;
+using System.Linq;
+using filmstermob.Views.Settings;
 
 namespace filmstermob.ViewModels
 {
@@ -29,13 +31,26 @@ namespace filmstermob.ViewModels
                 Items.Add(newItem);
                 await DataStore.AddItemAsync(newItem);
             });
-            
+
             MessagingCenter.Subscribe<ChatPage, Item>(this, "AddItem", async (obj, item) =>
             {
                 var newItem = item as Item;
                 Items.Add(newItem);
                 await DataStore.AddItemAsync(newItem);
             });
+
+            MessagingCenter.Subscribe<SettingsPage, ObservableCollection<Item>>(this, "AddItem", async (obj, item) =>
+            {
+                Items = item;
+                List<Item> refreshItems = item.Select(x => x).ToList();
+                await DataStore.RefreshItems(refreshItems);
+            });
+
+            MessagingCenter.Subscribe<FileEditPage, Item>(this, "DeleteItem", async (obj, item) =>
+                {
+                    Items.Remove(item);
+                    await DataStore.DeleteItemAsync(item);
+                });
 
             MessagingCenter.Subscribe<MessageHubService, Item>(this, "AddItem", async (obj, item) =>
             {

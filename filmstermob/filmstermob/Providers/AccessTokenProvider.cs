@@ -10,11 +10,9 @@ namespace filmstermob.Providers
 {
     public class AccessTokenProvider
     {
-        private static string _accessToken { get; set; }
 
         public static async Task<string> GetToken(string userName, string password)
         {
-            if (_accessToken != null) return _accessToken;
 
             using (var client = new HttpClient())
             {
@@ -27,8 +25,6 @@ namespace filmstermob.Providers
                 var resoinseJson = await res.Content.ReadAsStringAsync();
 
                 var respModel = JsonConvert.DeserializeObject<AuthModel>(resoinseJson);
-
-                _accessToken = respModel.AccessToken;
 
                 return respModel.AccessToken;
             }

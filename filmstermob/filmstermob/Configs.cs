@@ -7,7 +7,7 @@ namespace filmstermob
     public static class Configs
     {
         public static string ServerHost { get; set; } = "http://sync4u.azurewebsites.net";
-
+        public static string FolderForMedia { get; set; } = "TmpMedia";
         public static class TestLogin
         {
             public static string UserName { get; set; } = "admin";

@@ -26,12 +26,12 @@ namespace filmstermob.Views
 
             this.BindingContext = new PageSliderModel();
             var isAuth = CrossSettings.Current.GetValueOrDefault("auth", null) == null ? false : true;
-            if (CrossSettings.Current.GetValueOrDefault("userCreds", false))
-            {
-                var creds = CrossSettings.Current.GetValueOrDefault("userCreds", null).Split(' ');
-                var token = AccessTokenProvider.GetToken(creds[0], creds[1]).Result;
-                CrossSettings.Current.AddOrUpdateValue("auth", token);
-            }
+            //if (CrossSettings.Current.GetValueOrDefault("userCreds", null) != null)
+            //{
+            //    var creds = CrossSettings.Current.GetValueOrDefault("userCreds", null).Split(' ');
+            //    var token = AccessTokenProvider.GetToken(creds[0], creds[1]).Result;
+            //    CrossSettings.Current.AddOrUpdateValue("auth", token);
+            //}
             if (!isAuth)
             {
                 Task.Run(async () =>
