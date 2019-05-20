@@ -1,8 +1,5 @@
-﻿using System;
+﻿using SharedKernel.Abstractions.BLL.DTOs.Media;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SharedKernel.Abstractions.BLL.DTOs.Rooms
 {
@@ -11,6 +8,7 @@ namespace SharedKernel.Abstractions.BLL.DTOs.Rooms
 		string Name { get; set; }
 		string Password { get; set; }
 		string UniqName { get; set; }
-		long HostId { get; set; }
+
+		IEnumerable<IMediaDTO> Medias { get; set; }
 	}
 }

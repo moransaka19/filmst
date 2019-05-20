@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAL.Entities
 {
-	public class UserRoom : IUserRoom
+	public class UserRoom : IUserRoom, IEquatable<UserRoom>
 	{
 		public long UserId { get; set; }
 		public User User { get; set; }
@@ -29,6 +29,12 @@ namespace DAL.Entities
 		{
 			get => Room;
 			set => Room = value as Room;
+		}
+
+		public bool Equals(UserRoom other)
+		{
+			return UserId == other.UserId
+			       && RoomId == other.RoomId;
 		}
 	}
 }

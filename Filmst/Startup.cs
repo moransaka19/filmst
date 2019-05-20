@@ -1,16 +1,22 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.Configuration;
 using DAL;
 using DAL.Entities;
+using Filmst.Controllers;
 using Filmst.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -42,11 +48,13 @@ namespace Filmst
 		{
 			IntegrateSimpleInjector(services);
 
+			FixDIInSignalRHub(services);
+
 			Bootstrap();
 
 			services.AddHttpContextAccessor();
 
-			services.AddDbContext<ApplicationContext>(options => 
+			services.AddDbContext<ApplicationContext>(options =>
 				options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 			services.AddIdentity<User, IdentityRole<long>>(opts =>
@@ -77,9 +85,26 @@ namespace Filmst
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+			services.AddSignalR();
+
 			services.AddSwaggerGen(c =>
 			{
 				c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+
+				var security = new Dictionary<string, IEnumerable<string>>
+				{
+					{"Bearer", new string[] { }},
+				};
+
+				c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+				{
+					Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+					Name = "Authorization",
+					In = "header",
+					Type = "apiKey"
+				});
+
+				c.AddSecurityRequirement(security);
 			});
 		}
 
@@ -98,6 +123,13 @@ namespace Filmst
 
 			InitializeContainer(app);
 
+			app.UseCors(builder =>
+				builder
+					.AllowAnyOrigin()
+					.AllowAnyMethod()
+					.AllowAnyHeader()
+					.AllowCredentials());
+
 			app.UseSwagger();
 
 			app.UseSwaggerUI(c =>
@@ -107,6 +139,13 @@ namespace Filmst
 
 			app.UseHttpsRedirection();
 			app.UseAuthentication();
+
+
+			app.UseSignalR(routes =>
+			{
+				routes.MapHub<RoomHub>("/room");
+			});
+
 			app.UseMvc();
 		}
 
@@ -120,10 +159,22 @@ namespace Filmst
 			services.AddSingleton<IViewComponentActivator>(
 				new SimpleInjectorViewComponentActivator(_container));
 
-			services.AddHttpContextAccessor();
-
 			services.EnableSimpleInjectorCrossWiring(_container);
 			services.UseSimpleInjectorAspNetRequestScoping(_container);
+		}
+
+		private void FixDIInSignalRHub(IServiceCollection services)
+		{
+			services.AddSingleton(_container);
+			services.AddSingleton(typeof(IHubActivator<>), typeof(SimpleInjectorHubActivator<>));
+		}
+
+		private void Bootstrap()
+		{
+			Bootstrapper.Bootstrap(_container);
+			MapperBootstrapper.Bootstrap(_cfg);
+
+			Mapper.Initialize(_cfg);
 		}
 
 		private void InitializeContainer(IApplicationBuilder app)
@@ -134,17 +185,6 @@ namespace Filmst
 
 			// Allow Simple Injector to resolve services from ASP.NET Core.
 			_container.AutoCrossWireAspNetComponents(app);
-		}
-
-		private void Bootstrap()
-		{
-			Bootstrapper.Bootstrap(_container);
-			MapperBootstrapper.Bootstrap(_cfg);
-
-			PLL.IoC.Bootstrapper.Bootstrap(_container);
-			PLL.IoC.MapperBootstrapper.Bootstrap(_cfg);
-
-			Mapper.Initialize(_cfg);
 		}
 	}
 }

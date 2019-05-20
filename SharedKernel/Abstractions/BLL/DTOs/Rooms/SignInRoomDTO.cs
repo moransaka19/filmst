@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace SharedKernel.Abstractions.BLL.DTOs.Rooms
 {
-	public interface IUpdateRoomDTO
+	public interface ISignInRoomDTO
 	{
-		long Id { get; set; }
-		string Name { get; set; }
-		string Password { get; set; }
 		string UniqName { get; set; }
-		
-		long PlayListId { get; set; }
-		IEnumerable<long> UserIds { get; set; }
+		string Password { get; set; }
 	}
 }

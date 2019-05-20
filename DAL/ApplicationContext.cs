@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SharedKernel.Helpers;
 
 namespace DAL
 {
@@ -47,25 +51,32 @@ namespace DAL
 			#endregion
 
 			#region DataSeeding
-			
+
 			var user = new User()
 			{
 				Id = 1,
 				UserName = "admin",
 				NormalizedUserName = "admin".ToUpper()
 			};
+			var user2 = new User()
+			{
+				Id = 2,
+				UserName = "admin1",
+				NormalizedUserName = "admin1".ToUpper()
+			};
 
 			user.PasswordHash = new PasswordHasher<User>().HashPassword(user, "Password1");
+			user2.PasswordHash = new PasswordHasher<User>().HashPassword(user2, "Password1");
 
 			modelBuilder.Entity<User>()
-				.HasData(user);
+				.HasData(user, user2);
 
 			modelBuilder.Entity<IdentityRole<long>>()
 				.HasData(new IdentityRole<long> { Id = 1, Name = "Admin", NormalizedName = "Admin".ToUpper() });
 
 			modelBuilder.Entity<UserRoom>()
-				.HasData(new UserRoom { UserId = 1, RoomId = 1 });
-			
+				.HasData(new UserRoom() { RoomId = 1, UserId = 1 });
+
 			modelBuilder.Entity<Message>()
 				.HasData(new Message()
 				{
@@ -85,7 +96,8 @@ namespace DAL
 				{
 					Id = 1,
 					Name = "Room1",
-					UniqName = "UniqRoomNameAzaza"
+					UniqName = "UniqRoomNameAzaza",
+					PasswordHash = HashPasswordHelper.GetPasswordHash("Password1")
 				});
 
 			modelBuilder.Entity<PlayList>()

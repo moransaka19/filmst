@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Filmst.Controllers;
+using Microsoft.AspNetCore.SignalR;
+using SharedKernel.Abstractions.PLL.Rooms;
 
 namespace Filmst.IoC
 {
@@ -10,7 +13,6 @@ namespace Filmst.IoC
 	{
 		public static void Bootstrap(Container container)
 		{
-
 			PLL.IoC.Bootstrapper.Bootstrap(container);
 		}
 	}

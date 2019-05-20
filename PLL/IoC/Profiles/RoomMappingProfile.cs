@@ -13,8 +13,7 @@ namespace PLL.IoC.Profiles
 	{
 		public RoomMappingProfile()
 		{
-			CreateMap<IAddRoomViewModel, IAddRoomDTO>()
-				.ForMember(r => r.HostId, opt => opt.Ignore());
+
 		}
 	}
 }

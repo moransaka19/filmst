@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SharedKernel.Abstractions.PLL.User
+namespace SharedKernel.Exceptions
 {
-	public interface IUserDTO
+	public class UserIsNotHostException : ApplicationException
 	{
-		string UserName { get; set; }
-
 	}
 }
