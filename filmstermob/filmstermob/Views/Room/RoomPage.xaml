@@ -12,6 +12,7 @@
 
     <ContentPage.Content>
         <StackLayout>
+            
             <forms:MediaElement 
                 HorizontalOptions="Fill" 
                 VerticalOptions="Center" 
@@ -22,8 +23,43 @@
                 PropertyChanged="MediaPlayer_PropertyChanged"
                 CurrentStateChanged="MediaPlayer_CurrentStateChanged_1"
                 BindingContextChanged="MediaPlayer_BindingContextChanged"
+                MediaEnded="MediaPlayer_MediaEnded"
                 Focused="MediaPlayer_Focused"/>
             
+            <Button Text = "Play" 
+                    FontSize="Medium" 
+                    HorizontalOptions="Start"
+                    Clicked="Play_Clicked" />
+
+            <Label  x:Name="StateOfPlayer"
+                    Text="Stopped"
+                    FontSize="Medium"
+                    HorizontalOptions="Center"
+                    />
+
+            <Button Text = "Stop" 
+                    FontSize="Medium" 
+                    HorizontalOptions="End"
+                    Clicked="Stop_Clicked" />
+            
+            <ListView x:Name="ItemsListView"
+                ItemsSource="{Binding Items}"
+                VerticalOptions="FillAndExpand"
+                HasUnevenRows="true"
+                CachingStrategy="RecycleElement">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <Label Text="{Binding Text}" 
+                                LineBreakMode="NoWrap" 
+                                Style="{DynamicResource ListItemTextStyle}" 
+                                FontSize="16" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
             
         </StackLayout>
     </ContentPage.Content>
