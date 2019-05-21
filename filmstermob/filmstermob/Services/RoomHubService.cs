@@ -40,27 +40,34 @@ namespace filmstermob.Services
                 .Build();
         }
 
+        public async Task CheckMedia(IEnumerable<filmstermob.Models.Media> medias)
+        {
+            await _connection.SendAsync("CheckMedia", medias);
+        }
+
         public async Task InitListen()
         {
             _connection.On<IEnumerable<filmstermob.Models.Media>, string>("RequireMedia", (models, id) =>
             {
-                Console.WriteLine($"Medias to update: {models.Count()}. For user: {id}");
+                Console.WriteLine($"Medias to update: {models.Count()}. For user: {id}"); // When user connected to admin room, admin should to send media to user
 
                 for (var i = 0; i < models.Count(); i++)
                 {
                     Console.WriteLine($"Upload media{i + 1}");
-                    _connection.SendAsync("UploadMedia", id, $"fileName{i + 1}", new List<string>(new[] { "chunk1", "chunk2" }));
+                    _connection.SendAsync("UploadMedia", id, $"fileName{i + 1}", new List<string>(new[] { "chunk1", "chunk2" })); // just filename, list filename of chunks
                 }
             });
 
-            _connection.On<string, IEnumerable<string>>("DownloadMedia", (fileName, chunks) =>
+            _connection.On<string, IEnumerable<string>>("DownloadMedia", (fileName, chunks) => //when u connected to the room, if i havent media i getted this
             {
                 Console.WriteLine($"Start download {fileName} from {chunks.First()}, {chunks.Last()}");
 
-                Thread.Sleep(3000);
+                Thread.Sleep(3000); // TODO: by using chanks create file with file name
 
                 _connection.SendAsync("MediaDownloaded");
             });
+
+            //TODO: add methods for init play/stop/pause
 
             _connection.On("ReadyToPlay", () => Console.WriteLine("Ready to play. Mission completed nahren!"));
 

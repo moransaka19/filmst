@@ -1,4 +1,5 @@
-﻿using filmstermob.Services;
+﻿using filmstermob.Contracts;
+using filmstermob.Services;
 using Plugin.Settings;
 using System;
 using System.Collections.Generic;
@@ -21,16 +22,19 @@ namespace filmstermob.Views.Room
 
         async void CreateRoom_Clicked(object sender, EventArgs e)
         {
+            var files = DependencyService.Get<IMediaService>().GetFiles();
+            var media = MediaServ.GetMedia(files.Select(x => x.Path).ToList()).ToList();
+
             filmstermob.Models.Room room = new Models.Room()
             {
                 Name = name.Text,
                 UniqName = Uniqname.Text,
                 Password = password.Text,
-                Media = new List<Models.Media>() // TODO: make retriving files from selected folder in settings; If no, push page with selecting for it;
+                Medias = media // TODO: make retriving files from selected folder in settings; If no, push page with selecting for it;
             };
             await RoomService.RoomCreate(room);
             CrossSettings.Current.AddOrUpdateValue("roomauth", true);
-            await Navigation.PushAsync(new RoomPage(room));
+            await Navigation.PushAsync(new RoomPage(room, false));
         }
     }
 }

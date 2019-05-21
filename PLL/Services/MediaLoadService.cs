@@ -14,8 +14,8 @@ namespace PLL.Services
 {
     public class MediaLoadService : IMediaLoadService
     {
-        private const string _defaultChunkLocation = @"Media\Chunks\";
-        private const string _defaultBlobFilesLocation = @"Media\Download\";
+        private string _defaultChunkLocation = @"Media\Chunks\";
+        private string _defaultBlobFilesLocation = @"Media\Download\";
         private const int _sizeOfChunk = 50000000;
 
         private readonly CloudStorageAccount storageAccount;
@@ -28,6 +28,18 @@ namespace PLL.Services
             {
                 blobClient = storageAccount.CreateCloudBlobClient();
                 CloudBlobContainer blobContainer = blobClient.GetContainerReference(containerName);
+            }
+        }
+
+        public MediaLoadService(string connectionString, string containerName, string defaultChunkLocation, string defaultBlobFilesLocation)
+        {
+            _defaultChunkLocation = defaultChunkLocation;
+            _defaultBlobFilesLocation = defaultBlobFilesLocation;
+            if (CloudStorageAccount.TryParse(connectionString, out storageAccount))
+            {
+                blobClient = storageAccount.CreateCloudBlobClient();
+                CloudBlobContainer blobContainer = blobClient.GetContainerReference(containerName);
+
             }
         }
 

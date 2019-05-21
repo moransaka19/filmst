@@ -9,6 +9,6 @@ namespace filmstermob.Models
         public string Name { get; set; }
         public string UniqName { get; set; }
         public string Password { get; set; }
-        public List<Media> Media { get; set; }
+        public List<Media> Medias { get; set; }
     }
 }

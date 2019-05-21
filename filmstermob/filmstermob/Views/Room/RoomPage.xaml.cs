@@ -21,14 +21,21 @@ namespace filmstermob.Views.Room
     {
         ObservableCollection<FileViewModel> files;
         filmstermob.Models.Room Room;
-        public RoomPage(filmstermob.Models.Room room)
+        RoomHubService _roomHubService;
+        bool _isConnecting;
+
+        public RoomPage(filmstermob.Models.Room room, bool isConnecting)
         {
             InitializeComponent();
+            _roomHubService = new RoomHubService(room.UniqName, room.Password);
+
             Room = room;
             files = new ObservableCollection<FileViewModel>();
             files = DependencyService.Get<IMediaService>().GetFiles();
             var tempUri = new Uri(files[0].Path);
             mediaPlayer.Source = tempUri;
+            _isConnecting = isConnecting;
+
         }
 
         async void ChatOpen_Clicked(object sender, EventArgs e)
@@ -71,6 +78,28 @@ namespace filmstermob.Views.Room
         private void MediaPlayer_CurrentStateChanged_1(object sender, EventArgs e)
         {
 
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            Task.Run(async () =>
+            {
+                await _roomHubService.InitListen();
+                if (_isConnecting)
+                {
+                    var medias = MediaServ.GetMedia(files.Select(x => x.Path).ToList());
+                    await _roomHubService.CheckMedia(medias);
+                }
+            });
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            _roomHubService.StopHub();
         }
     }
 }

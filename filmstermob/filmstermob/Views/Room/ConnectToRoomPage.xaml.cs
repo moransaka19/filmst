@@ -24,7 +24,7 @@ namespace filmstermob.Views
             {
                 Task.Run(async () =>
                 {
-                    await Navigation.PushAsync(new RoomPage(Room));
+                    await Navigation.PushAsync(new RoomPage(Room, true));
                 });
             }
         }
@@ -52,7 +52,7 @@ namespace filmstermob.Views
             {
                 CrossSettings.Current.AddOrUpdateValue("roomauth", true);
                 Room = new Models.Room() { UniqName = login.Text, Password = password.Text };
-                await Navigation.PushAsync(new RoomPage(Room));
+                await Navigation.PushAsync(new RoomPage(Room, true));
             }
         }
 
