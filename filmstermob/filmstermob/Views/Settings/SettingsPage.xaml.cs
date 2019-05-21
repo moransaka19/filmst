@@ -1,5 +1,4 @@
-﻿using Android.Content;
-using filmstermob.Contracts;
+﻿using filmstermob.Contracts;
 using filmstermob.Models;
 using filmstermob.ViewModels;
 using filmstermob.Views.Settings;

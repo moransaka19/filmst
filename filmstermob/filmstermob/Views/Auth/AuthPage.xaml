@@ -13,9 +13,9 @@
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
             <Label Text="Login" FontSize="Medium" />
-            <Entry x:Name="login" Text="" FontSize="Small" />
+            <Entry x:Name="login" Text="" FontSize="Small" Placeholder="Enter login"/>
             <Label Text="Password" FontSize="Medium" />
-            <Entry x:Name="password" IsPassword="True" Text="" FontSize="Small" Margin="0" />
+            <Entry x:Name="password" IsPassword="True" Text="" FontSize="Small" Margin="0" Placeholder="Enter password" />
             <Label x:Name="error" IsVisible="False" TextColor="Red" FontSize="Small" Margin="0"/>
         </StackLayout>
     </ContentPage.Content>

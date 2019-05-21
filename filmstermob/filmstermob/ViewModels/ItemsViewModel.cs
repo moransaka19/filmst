@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using filmstermob.Services;
 using System.Linq;
 using filmstermob.Views.Settings;
+using filmstermob.Views.Room;
 
 namespace filmstermob.ViewModels
 {
@@ -31,8 +32,15 @@ namespace filmstermob.ViewModels
                 Items.Add(newItem);
                 await DataStore.AddItemAsync(newItem);
             });
-
+            
             MessagingCenter.Subscribe<ChatPage, Item>(this, "AddItem", async (obj, item) =>
+            {
+                var newItem = item as Item;
+                Items.Add(newItem);
+                await DataStore.AddItemAsync(newItem);
+            });
+
+            MessagingCenter.Subscribe<RoomPage, Item>(this, "AddItem", async (obj, item) =>
             {
                 var newItem = item as Item;
                 Items.Add(newItem);

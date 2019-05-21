@@ -13,11 +13,14 @@
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
             <Label Text="Login" FontSize="Medium" />
-            <Entry x:Name="login" Text="" FontSize="Small" />
+            <Entry x:Name="login" Text="" FontSize="Small" Placeholder="Enter login"/>
             <Label Text="Password" FontSize="Medium" />
-            <Entry x:Name="password" IsPassword="True" Text="" FontSize="Small" Margin="0" />
+            <Entry x:Name="password" IsPassword="True" Text="" FontSize="Small" Margin="0" Placeholder="Enter password"/>
             <Label Text="Confirm password" FontSize="Medium" />
-            <Entry x:Name="confirmPassword" IsPassword="True" Text="" FontSize="Small" Margin="0" />
+            <Entry x:Name="confirmPassword" IsPassword="True" Text="" FontSize="Small" Margin="0" Placeholder="Confirm password"/>
+            <Label Text="You accept that we dont responsive for all of yours actions with data. You'r responsibility for all your actions."
+                HorizontalOptions="CenterAndExpand" />
+            <Switch x:Name="Switcher" IsToggled="False" HorizontalOptions="Start" />
             <Label x:Name="error" IsVisible="False" TextColor="Red" FontSize="Small" Margin="0"/>
         </StackLayout>
     </ContentPage.Content>

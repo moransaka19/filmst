@@ -29,9 +29,17 @@ namespace filmstermob.Views
                 if (password.Text != confirmPassword.Text)
                     throw new FormatException();
 
+                if (!Switcher.IsToggled)
+                    throw new ApplicationException();
+
                 var token = await AccessTokenProvider.GetToken(login.Text, password.Text);
                 CrossSettings.Current.AddOrUpdateValue("auth", token);
                 await Navigation.PopModalAsync();
+            }
+            catch (ApplicationException errRegister)
+            {
+                error.Text = "Need to accept terms of use!";
+                error.IsVisible = true;
             }
             catch (FormatException errRegister)
             {
