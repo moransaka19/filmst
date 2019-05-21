@@ -47,11 +47,7 @@ namespace filmstermob.Views.Room
                 var tempUri = new Uri(playList.Items.First().Description);
                 mediaPlayer.Source = tempUri;
             }
-        }
-            files = new ObservableCollection<FileViewModel>();
-            files = DependencyService.Get<IMediaService>().GetFiles();
-            var tempUri = new Uri(files[0].Path);
-            mediaPlayer.Source = tempUri;
+
             _isConnecting = isConnecting;
 
         }
@@ -71,15 +67,6 @@ namespace filmstermob.Views.Room
             CrossSettings.Current.AddOrUpdateValue("roomauth", false);
             await RoomService.RoomSignOut();
             await Navigation.PopAsync(true);
-        }
-
-        protected override void OnAppearing()
-        {
-            base.OnAppearing();
-            
-
-            if (playList.Items.Count == 0)
-                playList.LoadItemsCommand.Execute(null);
         }
 
         async void Play_Clicked(object sender, EventArgs e)
@@ -134,6 +121,9 @@ namespace filmstermob.Views.Room
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            if (playList.Items.Count == 0)
+                playList.LoadItemsCommand.Execute(null);
 
             Task.Run(async () =>
             {
