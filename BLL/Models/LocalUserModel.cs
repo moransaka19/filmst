@@ -13,5 +13,6 @@ namespace BLL.Models
 		public string ConnectionId { get; set; }
 		public bool IsHost { get; set; }
 		public int MediasInDownloadCount { get; set; }
+		public bool TrackEnded { get; set; }
 	}
 }

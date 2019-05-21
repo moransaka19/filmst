@@ -102,6 +102,8 @@ namespace Filmst.Controllers
 
 			if (_roomController.IsAllUsersReadyToStart(_roomName))
 			{
+				await Clients.Caller.SendAsync("NextMedia", _roomController.GetCurrentMedia(_roomName));
+
 				await Clients.Group(_roomName).SendAsync("ReadyToPlay");
 			}
 		}
@@ -111,18 +113,48 @@ namespace Filmst.Controllers
 			await Clients.Group(_roomName).SendAsync("Receive", Context.User.Identity.Name, message);
 		}
 
-		public async Task Play()
+		public async Task SetNextMedia(MediaViewModel media)
 		{
-			await Clients.Group(_roomName).SendAsync("Play");
+			if (Context.ConnectionId != _roomController.GetHostConnectionId())
+				return;
+
+			_roomController.NextMedia(_roomName, Mapper.Map<IMediaDTO>(media));
+
+			await Clients.Group(_roomName).SendAsync("NextMedia", media);
+		}
+
+		public async Task TrackEnded()
+		{
+			_roomController.TrackEnded(_roomName);
+
+			if (_roomController.IsAllUsersWaitingOnNextTrack(_roomName))
+				await Clients.Client(_roomController.GetHostConnectionId()).SendAsync("RequireNextMedia");
+		}
+
+		public async Task Play(TimeSpan currentTrackTime)
+		{
+			if (Context.ConnectionId != _roomController.GetHostConnectionId())
+				return;
+
+			_roomController.TrackStarted(_roomName);
+
+			await Clients.Group(_roomName).SendAsync("Play", currentTrackTime);
 		}
 
 		public async Task Pause()
 		{
+
+			if (Context.ConnectionId != _roomController.GetHostConnectionId())
+				return;
+			
 			await Clients.Group(_roomName).SendAsync("Pause");
 		}
 
 		public async Task Stop()
 		{
+			if (Context.ConnectionId != _roomController.GetHostConnectionId())
+				return;
+
 			await Clients.Group(_roomName).SendAsync("Stop");
 		}
 	}

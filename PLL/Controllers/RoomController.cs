@@ -8,6 +8,7 @@ using SharedKernel.Abstractions.BLL.DTOs.Media;
 using SharedKernel.Abstractions.BLL.DTOs.Rooms;
 using SharedKernel.Abstractions.BLL.Services;
 using SharedKernel.Abstractions.DAL.Models;
+using SharedKernel.Abstractions.PLL.Media;
 using SharedKernel.Abstractions.PLL.Rooms;
 using SharedKernel.Abstractions.PLL.Rooms.Models;
 
@@ -76,6 +77,31 @@ namespace PLL.Controllers
 		public IRoomViewModel GetRoomInfo(string roomName)
 		{
 			return Mapper.Map<IRoomViewModel>(_roomService.GetRoomInfo(roomName));
+		}
+
+		public void TrackEnded(string roomName)
+		{
+			_roomService.TrackEnded(roomName);
+		}
+
+		public void TrackStarted(string roomName)
+		{
+			_roomService.TrackStarted(roomName);
+		}
+
+		public void NextMedia(string roomName, IMediaDTO media)
+		{
+			_roomService.NextMedia(roomName, Mapper.Map<IMedia>(media));
+		}
+
+		public IMediaViewModel GetCurrentMedia(string roomName)
+		{
+			return Mapper.Map<IMediaViewModel>(_roomService.GetCurrentMedia(roomName));
+		}
+
+		public bool IsAllUsersWaitingOnNextTrack(string roomName)
+		{
+			return _roomService.IsAllUsersWaitingOnNextTrack(roomName);
 		}
 	}
 }

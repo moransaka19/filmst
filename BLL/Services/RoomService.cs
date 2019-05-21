@@ -14,6 +14,7 @@ using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using SharedKernel.Abstractions.BLL.DTOs.Media;
 using SharedKernel.Abstractions.DAL.Models;
 
 namespace BLL.Services
@@ -145,6 +146,33 @@ namespace BLL.Services
 			});
 		}
 
+		public void TrackEnded(string roomName)
+		{
+			_rooms[roomName].Users
+							.Where(u => u.UserName.ToUpper() == _currentUserName)
+							.ToList()
+							.ForEach(u => u.TrackEnded = true);
+		}
+
+		public void TrackStarted(string roomName)
+		{
+			_rooms[roomName].Users = _rooms[roomName].Users.Select(u =>
+			{
+				u.TrackEnded = false;
+				return u;
+			}).ToList();
+		}
+
+		public void NextMedia(string roomName, IMedia media)
+		{
+			_rooms[roomName].CurrentMedia = Mapper.Map<Media>(media);
+		}
+
+		public IMediaDTO GetCurrentMedia(string roomName)
+		{
+			return Mapper.Map<IMediaDTO>(_rooms[roomName].CurrentMedia);
+		}
+
 		public IEnumerable<IMedia> CheckMedia(string roomName, IEnumerable<IMedia> medias)
 		{
 			var mediaModels = Mapper.Map<IEnumerable<Media>>(medias);
@@ -165,7 +193,14 @@ namespace BLL.Services
 
 		public bool IsAllUsersReadyToStart(string roomName)
 		{
-			return !_rooms[roomName].Users.Any(u => u.MediasInDownloadCount > 0);
+			return _rooms[roomName].Users
+									.All(u => u.MediasInDownloadCount == 0);
+		}
+
+		public bool IsAllUsersWaitingOnNextTrack(string roomName)
+		{
+			return _rooms[roomName].Users
+								   .All(u => u.TrackEnded);
 		}
 
 		public IRoomDTO GetRoomInfo(string roomName)
