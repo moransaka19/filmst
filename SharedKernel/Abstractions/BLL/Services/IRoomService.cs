@@ -17,6 +17,7 @@ namespace SharedKernel.Abstractions.BLL.Services
 		string GetHostConnectionId();
 		Task DisconnectFromRoomAsync();
 		Task AddToRoomAsync(string roomName, string connectionId);
+		void SetPlaylist(IEnumerable<IMediaDTO> medias);
 		IEnumerable<IMedia> CheckMedia(string roomName, IEnumerable<IMedia> medias);
 		IEnumerable<string> GetUserConnectionIdsInCurrentRoom();
 		void MediaDownloaded(string roomName);

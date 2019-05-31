@@ -38,6 +38,11 @@ namespace PLL.Controllers
 			await _roomService.AddToRoomAsync(roomName, connectionId);
 		}
 
+		public void SetPlaylist(IEnumerable<IMediaViewModel> medias)
+		{
+			_roomService.SetPlaylist(Mapper.Map<IEnumerable<IMediaDTO>>(medias));
+		}
+
 		public string GetRoomName()
 		{
 			return _roomService.GetRoomName();

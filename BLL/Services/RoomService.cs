@@ -15,6 +15,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using SharedKernel.Abstractions.BLL.DTOs.Media;
+using SharedKernel.Abstractions.BLL.DTOs.User;
 using SharedKernel.Abstractions.DAL.Models;
 
 namespace BLL.Services
@@ -130,6 +131,14 @@ namespace BLL.Services
 
 		public async Task AddToRoomAsync(string roomName, string connectionId)
 		{
+			var localUser = _rooms[roomName].Users
+											.FirstOrDefault(u => u.UserName.ToUpper() == _currentUserName);
+
+			if (localUser != null)
+			{
+				_rooms[roomName].Users.Remove(localUser);
+			}
+
 			var user = await _userManager.FindByNameAsync(_currentUserName);
 
 			var roomHostId = _roomRepository
@@ -144,6 +153,11 @@ namespace BLL.Services
 				ConnectionId = connectionId,
 				IsHost = user.Id == roomHostId
 			});
+		}
+
+		public void SetPlaylist(IEnumerable<IMediaDTO> medias)
+		{
+			_rooms[GetRoomName()].Medias = Mapper.Map<ICollection<Media>>(medias);
 		}
 
 		public void TrackEnded(string roomName)

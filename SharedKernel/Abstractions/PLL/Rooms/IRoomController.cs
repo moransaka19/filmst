@@ -15,6 +15,7 @@ namespace SharedKernel.Abstractions.PLL.Rooms
 		Task AddAsync(IAddRoomViewModel model);
 		Task SignInAsync(ISignInRoomViewModel model);
 		Task AddToRoomAsync(string roomName, string connectionId);
+		void SetPlaylist(IEnumerable<IMediaViewModel> medias);
 		string GetRoomName();
 		string GetHostConnectionId();
 		Task DisconnectFromRoomAsync();

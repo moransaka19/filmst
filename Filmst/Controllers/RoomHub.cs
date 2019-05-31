@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using PLL.ViewModels;
 using PLL.ViewModels.Media;
 using SharedKernel.Abstractions.BLL.DTOs.Media;
+using SharedKernel.Abstractions.PLL.Media;
 using SharedKernel.Abstractions.PLL.Rooms;
 using SharedKernel.Exceptions;
 using SharedKernel.Extensions;
@@ -79,6 +80,13 @@ namespace Filmst.Controllers
 			await _roomController.DisconnectFromRoomAsync();
 		}
 
+		public async Task SetPlaylist(IEnumerable<IMediaViewModel> medias)
+		{
+			_roomController.SetPlaylist(medias);
+
+			await Clients.Group(_roomName).SendAsync("RequireCheckMedia");
+		}
+
 		public async Task CheckMedia(IEnumerable<MediaViewModel> medias)
 		{
 			var requiredMedias = _roomController.CheckMedia(_roomName, Mapper.Map<IEnumerable<IMediaDTO>>(medias));
@@ -89,6 +97,8 @@ namespace Filmst.Controllers
 				await Clients.Client(hostConnectionId)
 							 .SendAsync("RequireMedia",
 										Mapper.Map<IEnumerable<MediaViewModel>>(requiredMedias), Context.ConnectionId);
+			else
+				await Clients.Group(_roomName).SendAsync("ReadyToPlay");
 		}
 
 		public async Task UploadMedia(string connectionId, string fileName, List<string> сhunks)
