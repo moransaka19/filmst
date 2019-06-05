@@ -80,7 +80,7 @@ namespace Filmst.Controllers
 			await _roomController.DisconnectFromRoomAsync();
 		}
 
-		public async Task SetPlaylist(IEnumerable<IMediaViewModel> medias)
+		public async Task SetPlaylist(IEnumerable<MediaViewModel> medias)
 		{
 			_roomController.SetPlaylist(medias);
 
