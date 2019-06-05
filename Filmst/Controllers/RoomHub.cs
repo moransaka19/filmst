@@ -84,7 +84,7 @@ namespace Filmst.Controllers
 		{
 			_roomController.SetPlaylist(medias);
 
-			await Clients.Group(_roomName).SendAsync("RequireCheckMedia");
+			await Clients.GroupExcept(_roomName, Context.ConnectionId).SendAsync("RequireCheckMedia");
 		}
 
 		public async Task CheckMedia(IEnumerable<MediaViewModel> medias)
@@ -97,7 +97,8 @@ namespace Filmst.Controllers
 				await Clients.Client(hostConnectionId)
 							 .SendAsync("RequireMedia",
 										Mapper.Map<IEnumerable<MediaViewModel>>(requiredMedias), Context.ConnectionId);
-			else
+
+			if (_roomController.IsAllUsersReadyToStart(_roomName))
 				await Clients.Group(_roomName).SendAsync("ReadyToPlay");
 		}
 
